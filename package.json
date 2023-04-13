@@ -1,0 +1,38 @@
+{
+	"name": "supabasedemo",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "prettier --plugin-search-dir . --check .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@rgossiaux/svelte-headlessui": "^1.0.2",
+		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/kit": "^1.5.0",
+		"autoprefixer": "^10.4.14",
+		"postcss": "^8.4.21",
+		"prettier": "^2.8.0",
+		"prettier-plugin-svelte": "^2.8.1",
+		"svelte": "^3.54.0",
+		"tailwindcss": "^3.2.7",
+		"vite": "^4.0.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"@picocss/pico": "^1.5.7",
+		"@supabase/auth-helpers-sveltekit": "^0.8.7",
+		"@supabase/supabase-js": "^2.8.0",
+		"@tailwindcss/line-clamp": "^0.4.2",
+		"artplayer": "^4.6.2",
+		"daisyui": "^2.51.5",
+		"lucide-svelte": "^0.127.0",
+		"node-vibrant": "3.1.6",
+		"nprogress": "^0.2.0",
+		"openplayerjs": "^2.13.0",
+		"sharp": "^0.32.0"
+	}
+}
