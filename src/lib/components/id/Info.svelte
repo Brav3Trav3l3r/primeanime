@@ -26,14 +26,14 @@
 		let minutes = '0' + date.getMinutes();
 		let seconds = '0' + date.getSeconds();
 
-		let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+		let formattedTime = hours + 'hr' + " " + minutes.substr(-2) + 'min' ;
 
 		return (time = formattedTime);
 	};
 </script>
 
 <div class="anime ">
-	<div class="flex flex-col md:flex-row gap-4">
+	<div class="flex flex-col md:flex-row gap-6">
 		<div class="image h-80 w-fit aspect-[2/3] truncate">
 			<img src={anime.image} alt="" class="w-full h-full object-cover" />
 		</div>

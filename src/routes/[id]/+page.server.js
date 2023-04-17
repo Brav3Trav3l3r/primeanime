@@ -1,18 +1,21 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 import * as Vibrant from 'node-vibrant';
 
-export async function load({ params, fetch, setHeaders, url, depends }) {
+export async function load({ params, fetch, setHeaders, url }) {
 	const dub = await url.searchParams.get('dub');
 	const provider = await url.searchParams.get('provider');
 	const res = await fetch(
 		`https://api-consumet-rust.vercel.app/meta/anilist/info/${params.id}?dub=${dub}&provider=${provider}`
 	);
-	console.log(res.status)
-	
-	let anime;
+	const anime = await res.json();
+	console.log(res.status);
+
 	if (res.ok) {
-		anime = await res.json();
 		setHeaders({ 'cache-control': 'max-age=60' });
+	} else {
+		throw error(404, {
+			message: 'No returned data from api'
+		});
 	}
 
 	let color = null;

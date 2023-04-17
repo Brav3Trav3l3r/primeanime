@@ -1,16 +1,34 @@
 <script>
-	import { playerOn, currentEp, isDub, currentProvider } from '$lib/store/store.js';
+	import { currentEp, isDub, continueWatching, currentProvider } from '$lib/store/store.js';
 	import { onDestroy, onMount } from 'svelte';
-	import { X } from 'lucide-svelte';
 	import Artplayer from 'artplayer';
-	import { beforeNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
 
+	export let playingEp = null;
+	$: console.log(playingEp);
+
+	let arr = $continueWatching;
 	let art;
+	let playingEpisode = null;
+	let currentTime = 0;
+	$: currentEpNumber = playingEp?.number ?? undefined;
 	let captions = [];
 	let newArray = [];
 	let url;
 	let subSrc;
 	let proxy = 'https://m3u8-proxy-cors-eta.vercel.app/cors?url=';
+
+	$: playingEpisode = {
+		id: $page.data.paramsId,
+		number: currentEpNumber,
+		time: currentTime
+	};
+
+	$:async () => {
+		console.log("change")
+		await getUrl(playingEp);
+		art.switchUrl(url);
+	};
 
 	const keyMap = {
 		lang: 'html',
@@ -51,7 +69,7 @@
 	}
 
 	onMount(async () => {
-		await getUrl($currentEp.id);
+		await getUrl(playingEp.id);
 
 		art = new Artplayer({
 			container: '.artplayer-app',
@@ -85,45 +103,54 @@
 			]
 		});
 
-		art.on('video:canplaythrough', () => {
-			console.info('play');
+		art.on('ready', async () => {
+			art.url = `${proxy}${url}`
+			const obj = await arr.find(
+				(obj) => obj['id'] === playingEpisode.id && obj['number'] === playingEpisode.number
+			);
+			if (obj) {
+				console.log('obj', obj);
+				art.seek = obj.time;
+			}
+		});
+
+		art.on('video:timeupdate', () => {
+			currentTime = Math.trunc(art.currentTime);
 		});
 		art.on('destroy', () => {
 			console.info('destroy-event');
 		});
-
-		// return () => {
-		// 	art.destroy();
-		// 	console.log('destroyed');
-		// };
 	});
 
-	onDestroy(() => {
-		art.destroy();
-		console.log('destroyed');
-		currentEp.set(null)
-	});
-
-	const search = async (array) => {
-		if (array != null) {
-			const obj = await array.find((el) => el.quality === 'default' || el.quality === 'auto');
-			return obj.url;
+	onDestroy(async () => {
+		const foundIndex = await arr.findIndex(
+			(obj) => obj['id'] === playingEpisode.id && obj['number'] === playingEpisode.number
+		);
+		if (foundIndex !== -1) {
+			arr[foundIndex].time = playingEpisode.time;
+		} else {
+			arr.push(playingEpisode);
 		}
-	};
+		continueWatching.set(arr);
+		playingEp.set(null);
+	});
+
 	const getUrl = async (id) => {
-		if (id != null) {
+		console.log('started');
+		if (id) {
 			const res = await fetch(
 				`https://api-consumet-rust.vercel.app/meta/anilist/watch/${id}?provider=${$currentProvider.value}`
 			);
 			const data = await res.json();
 			const sources = data.sources;
-			const promise = await search(sources);
-			url = promise;
+			const obj = await sources.find((el) => el.quality === 'default' || el.quality === 'auto');
+			url = obj.url;
+			console.log(url);
 			if ($currentProvider.value === 'zoro') {
+				console.log('getting subs');
 				subSrc = data.subtitles;
 				newArray = subSrc.map((obj) => createNewObjectWithChangedKeys(obj, keyMap));
-				// const subData = await subtitles.find((el) => el.lang === 'English');
-				// subSrc = await subData.url;
+				console.log(newArray)
 			}
 		}
 	};
@@ -134,12 +161,3 @@
 </svelte:head>
 
 <div class="artplayer-app w-full h-full object-contain " />
-<button
-	on:click={() => {
-		art.destroy();
-		currentEp.set(null);
-	}}
-	class="button z-50 absolute top-4 right-4 cursor-pointer"
->
-	<X color="red" />
-</button>

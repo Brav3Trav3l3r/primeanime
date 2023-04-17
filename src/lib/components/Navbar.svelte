@@ -33,7 +33,7 @@
 			</div>
 		{:else}
 			<a href="/login" class="w-full bg-base-content/30 rounded items-center flex justify-center h-12">
-				<h1 class="font-semibold text-xl">Login</h1>
+				<h1 class="text-md">Login</h1>
 			</a>
 		{/if}
 	</div>

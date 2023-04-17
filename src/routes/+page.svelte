@@ -86,7 +86,7 @@
 		<h1 class="text-xl font-bold">Recent Episodes</h1>
 		<div class="grid gap-3 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 ">
 			{#each recent as anime}
-				<Card {anime} {session} />
+				<Card {anime} {session} recentEpisode=true/>
 			{/each}
 		</div>
 	</div>

@@ -1,6 +1,7 @@
 <script>
 	export let anime;
 	export let recentEpisode = false;
+	import {LazyImage} from 'svelte-lazy-image';
 	$: animeTitle = (anime.title?.english ?? anime.title.romaji) || anime.title;
 	import { addToLib, profile, lib, deleteFromLib } from '$lib/store/supaStore';
 	import { currentProvider, isDub } from '$lib/store/store';
@@ -28,7 +29,7 @@
 		<a href="/{anime.id}?dub={$isDub.value}&provider={$currentProvider.value}" class="z-0">
 			<div class="card z-0 flex flex-col relative">
 				<div class=" image aspect-[2/3] flex-1 overflow-hidden">
-					<img src={anime.image} alt={animeTitle} class="w-full h-full object-cover" />
+					<LazyImage src={anime.image} alt={animeTitle} options={{ threshold: 0.5 }} class="w-full h-full object-cover" />
 				</div>
 
 				<div class="w-full bg-base-300 h-10" />
@@ -49,7 +50,7 @@
 						<h1 class="font-lato">{animeTitle}</h1>
 					</div>
 					<div class="info flex justify-between">
-						<h1 class="text-md text-neutral-content">
+						<h1 class="text-md text-neutral-content opacity-70">
 							<span class="font-roboto text-md"
 								>{anime.episodes || anime.totalEpisodes
 									? anime?.episodes ?? anime.totalEpisodes
@@ -59,7 +60,7 @@
 						</h1>
 
 						{#if anime.rating}
-							<div class="rating flex items-center text-md gap-1 text-accent">
+							<div class="rating flex items-center text-md gap-1 text-secondary">
 								<h1 class="font-roboto">{anime.rating}</h1>
 								<Percent size="16" />
 							</div>
@@ -68,10 +69,10 @@
 				</div>
 				{#if recentEpisode}
 					<div
-						class="absolute px-3 py-1 top-2 flex items-center justify-center right-0 bg-[#006E5E] border-l-4 border-[#181818]"
+						class="absolute text-base-100 px-3 py-1 top-2 flex items-center justify-center right-0 bg-accent border-l-4 border-base-100"
 					>
-						<h1 class="text-[#FEFEDF] font-roboto font-bold text-md">
-							{anime.episodeNumber}<span class="text-sm ml-1 text-[#181818]">eps</span>
+						<h1 class="font-roboto font-semibold text-sm">
+							{anime.episodeNumber}<span class="text-sm ml-1">eps</span>
 						</h1>
 					</div>
 				{/if}

@@ -12,7 +12,6 @@
 	let pageForm;
 	import { invalidate, goto } from '$app/navigation';
 	$: query = $page.data.query;
-	$: console.log($isDub);
 	export let anime;
 
 	$: if (query.provider != $currentProvider.value) {
