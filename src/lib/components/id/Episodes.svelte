@@ -1,19 +1,31 @@
 <script>
 	export let anime;
 	import { ChevronRight, ChevronLeft, Play, X, Search, LayoutGrid } from 'lucide-svelte';
-	import { currentProvider } from '$lib/store/store.js';
+	import { currentProvider, continueWatching } from '$lib/store/store.js';
 	import { paginate, PaginationNav } from 'svelte-paginate';
 	import Player from '../Player.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import Player3 from '../Player3.svelte';
+	import PlayerTwo from '../PlayerTwo.svelte';
+	import Card from '../Card.svelte';
 
-	let dummyFunc = () => {
-		console.log('artPlyer');
+	let filterd = []
+
+	const getFilterdWatching = async () => {
+		const objinContinueWatching =await $continueWatching.find((obj) => obj['id'] === $page.data.paramsId);
+		filterd = objinContinueWatching.eps
+			.map((episode) => {
+				const percent = (episode.time / episode.duration) * 100;
+				return { number: episode.number, percent: percent };
+			})
+			.filter((episode) => {
+				return episode.percent > 5;
+			});
+		console.log(filterd)	
 	};
 
-	const parentFunc = () => {
-		dummyFunc();
-	};
+	getFilterdWatching()
 
 	afterNavigate(() => {
 		console.log('navigate');
@@ -28,15 +40,15 @@
 	let currentPage = 1;
 	let pageSize = 12;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-
-
 </script>
 
 <div class="main space-y-8 w-full">
 	{#if playingEp}
 		<div class="space-y-4 mx-auto max-w-[960px]">
 			<div class="player group aspect-video bg-base-300 truncate relative">
-				<Player3 {playingEp} />
+				{#key playingEp}
+					<Player {playingEp} />
+				{/key}
 				<button
 					on:click={() => {
 						playingEp = null;
@@ -67,7 +79,7 @@
 					limit={1}
 					showStepOptions={true}
 					on:setPage={(e) => {
-						console.log(e)
+						console.log(e);
 						currentPage = e.detail.page;
 					}}
 				>
@@ -82,7 +94,7 @@
 					</span>
 				</PaginationNav>
 			</div>
-			<div class="relative flex items-center gap-6">
+			<div class="relative opacity-60 flex items-center gap-6">
 				<LayoutGrid fill="#D6CBCB" strokeWidth="0" size="28" />
 				<input
 					type="text"
@@ -101,6 +113,7 @@
 						on:click={async () => {
 							if (playingEp != ep) {
 								playingEp = ep;
+								getFilterdWatching()
 							} else {
 								alert('Already playing');
 							}
@@ -116,6 +129,14 @@
 										<Play fill="black" size="32" strokeWidth="0" />
 									</div>
 								</div>
+							</div>
+						{/if}
+						{#if filterd.some((obj) => obj.number === ep.number)}
+							<div class="layer absolute inset-0 bg-base-100/50 flex items-end">
+								<div
+									class="transparent relative w-full z-0 inset-y-0 border-b-4 border-base-content/60"
+								/>
+								<div style="width: {filterd.find(eps=>eps.number === ep.number).percent}%;" class="transparent absolute z-10 inset-y-0 border-b-4 border-primary" />
 							</div>
 						{/if}
 					</figure>
@@ -134,12 +155,15 @@
 			{/each}
 		</div>
 	{:else}
-		<h1>No episodes are available from {$currentProvider.name} :(</h1>
+		<h1>No episode can be found from {$currentProvider.name} :(</h1>
 		<h1 class="text-sm opacity-50">Try switching the provider</h1>
 	{/if}
 </div>
 
 <style>
+	.border-primary {
+	}
+
 	.paginate :global(.pagination-nav) {
 		display: flex;
 		gap: 16px;

@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@iconify/svelte': ^3.1.2
   '@picocss/pico': ^1.5.7
   '@rgossiaux/svelte-headlessui': ^1.0.2
   '@supabase/auth-helpers-sveltekit': ^0.8.7
@@ -9,8 +10,10 @@ specifiers:
   '@sveltejs/kit': ^1.5.0
   '@tailwindcss/line-clamp': ^0.4.2
   artplayer: ^4.6.2
+  artplayer-plugin-hls-quality: ^1.0.1
   autoprefixer: ^10.4.14
   daisyui: ^2.51.5
+  hls.js: ^1.4.0
   lucide-svelte: ^0.127.0
   node-vibrant: 3.1.6
   nprogress: ^0.2.0
@@ -20,7 +23,10 @@ specifiers:
   prettier-plugin-svelte: ^2.8.1
   sharp: ^0.32.0
   svelte: ^3.54.0
+  svelte-lazy-image: ^0.5.1
+  svelte-paginate: ^0.1.0
   tailwindcss: ^3.2.7
+  vidstack: ^0.4.4
   vite: ^4.0.0
 
 dependencies:
@@ -29,14 +35,19 @@ dependencies:
   '@supabase/supabase-js': 2.8.0
   '@tailwindcss/line-clamp': 0.4.4_tailwindcss@3.3.1
   artplayer: 4.6.2
+  artplayer-plugin-hls-quality: 1.0.1
   daisyui: 2.51.5_j7yt3jd32cwenjqavrrga47yr4
+  hls.js: 1.4.0
   lucide-svelte: 0.127.0_svelte@3.55.1
   node-vibrant: 3.1.6
   nprogress: 0.2.0
   openplayerjs: 2.13.0
   sharp: 0.32.0
+  svelte-lazy-image: 0.5.1
+  vidstack: 0.4.4
 
 devDependencies:
+  '@iconify/svelte': 3.1.2_svelte@3.55.1
   '@rgossiaux/svelte-headlessui': 1.0.2_svelte@3.55.1
   '@sveltejs/adapter-auto': 2.0.0_@sveltejs+kit@1.8.3
   '@sveltejs/kit': 1.8.3_svelte@3.55.1+vite@4.1.4
@@ -45,6 +56,7 @@ devDependencies:
   prettier: 2.8.4
   prettier-plugin-svelte: 2.9.0_jrsxveqmsx2uadbqiuq74wlc4u
   svelte: 3.55.1
+  svelte-paginate: 0.1.0
   tailwindcss: 3.3.1_postcss@8.4.21
   vite: 4.1.4
 
@@ -255,6 +267,19 @@ packages:
     dev: true
     optional: true
 
+  /@iconify/svelte/3.1.2_svelte@3.55.1:
+    resolution: {integrity: sha512-XdjtXA86hAIUWc+9pLRQ4xKR3nClOL6vcDlDSEj3tiOuG/tazKj7lILocRx3sncB38rMhysMRgnv1ooCM4+Dxw==}
+    peerDependencies:
+      svelte: '>=3'
+    dependencies:
+      '@iconify/types': 2.0.0
+      svelte: 3.55.1
+    dev: true
+
+  /@iconify/types/2.0.0:
+    resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+    dev: true
+
   /@jimp/bmp/0.16.13_@jimp+custom@0.16.13:
     resolution: {integrity: sha512-9edAxu7N2FX7vzkdl5Jo1BbACfycUtBQX+XBMcHA2bk62P8R0otgkHg798frgAk/WxQIzwxqOH6wMiCwrlAzdQ==}
     peerDependencies:
@@ -368,6 +393,10 @@ packages:
   /@jridgewell/sourcemap-codec/1.4.14:
     resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==}
     dev: true
+
+  /@maverick-js/signals/5.9.3:
+    resolution: {integrity: sha512-rqaaetjcqQQXbloejGYyHqN6i+cf2Lp88nw8qx2s86CD0X+1Tl/dq+I53wFM6VK6cvm925fQLszGG24AMSWAaw==}
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -579,6 +608,10 @@ packages:
 
   /arg/5.0.2:
     resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
+
+  /artplayer-plugin-hls-quality/1.0.1:
+    resolution: {integrity: sha512-khqCb/iuvphjVl6vNdjhXtKBYaY4eqaAgvA+Dx8S/rU8G2xStZo7Wd24nzlhxP6fdWbBBU5HgUEGEqDY8qkqGg==}
+    dev: false
 
   /artplayer/4.6.2:
     resolution: {integrity: sha512-9RMfFFy2wGgHUCnrwk+M2Z5OiLWQcBL+YzkSBwSi6IuJG6oM+TlfJJZt09RL2iag6DNQ+AUYtB879WUHxbqfIQ==}
@@ -1069,6 +1102,10 @@ packages:
     dependencies:
       function-bind: 1.1.1
 
+  /hls.js/1.4.0:
+    resolution: {integrity: sha512-VEjg7Rx5FlE9TB3MIn0HPgq3J+vR7EoQnjaqMCk/ISEaCOSZlAFh4g867f1QkSxZiq9kHeUZo+iH16X7VS3jKA==}
+    dev: false
+
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
@@ -1203,6 +1240,24 @@ packages:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /maverick.js/0.32.3:
+    resolution: {integrity: sha512-2jzhv6nmK5mw6gEuoq5MeEGUBEhF5keZxi3w7/2oIB4NSvfCBBSOyKH9fBagpvAAOtT5ySgVAJlivg9vUBdJsQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@maverick-js/signals': 5.9.3
+      type-fest: 2.19.0
+    dev: false
+
+  /media-captions/0.0.7:
+    resolution: {integrity: sha512-FUz0sVnMrhNHL3AmmDMKs3SUYnjxQ5Yg4N7ijJUTojAOqd4KYjPqSj2+dGBwAuU7gJsU5TgKziggsXU17EGPOw==}
+    engines: {node: '>=16'}
+    dev: false
+
+  /media-icons/0.4.2:
+    resolution: {integrity: sha512-jrxoQzxsZFyzt6P3CoGZWa6FVKoR/Ii1plbVjtyTSyQGpeVWkJ++0oBAwGOv/F9mWRxmGkaQ04uEIKTFouRG1w==}
+    engines: {node: '>=16'}
+    dev: false
 
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -1780,6 +1835,14 @@ packages:
       svelte: 3.55.1
     dev: true
 
+  /svelte-lazy-image/0.5.1:
+    resolution: {integrity: sha512-BDwywMngYjrEtL73N2ZKYYnWlNBWSnw31y1Mb3kNeXVc/9iDir6Ew3bfuDtuEyi3evBFXF0jixkCMFuTseWjWQ==}
+    dev: false
+
+  /svelte-paginate/0.1.0:
+    resolution: {integrity: sha512-SHD9YWj3S+qu7gTeaOox9ZA2S+iiNOp4VKnoGKvF6vm2bzp9gMUihwYunDoYXl0z6OLvZ1MpaHt27/sNx/t/UA==}
+    dev: true
+
   /svelte/3.55.1:
     resolution: {integrity: sha512-S+87/P0Ve67HxKkEV23iCdAh/SX1xiSfjF1HOglno/YTbSTW7RniICMCofWGdJJbdjw3S+0PfFb1JtGfTXE0oQ==}
     engines: {node: '>= 8'}
@@ -1896,6 +1959,16 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /type-fest/2.19.0:
+    resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
+    engines: {node: '>=12.20'}
+    dev: false
+
+  /type-fest/3.8.0:
+    resolution: {integrity: sha512-FVNSzGQz9Th+/9R6Lvv7WIAkstylfHN2/JYxkyhhmKFYh9At2DST8t6L6Lref9eYO8PXFTfG9Sg1Agg0K3vq3Q==}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /type/1.2.0:
     resolution: {integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==}
     dev: false
@@ -1958,6 +2031,16 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  /vidstack/0.4.4:
+    resolution: {integrity: sha512-kj+RJAqYfLd4ACMaPpU6QXwKmp/Oy84H1xeBgW3XSwMF2EYv1YVf0+FanqwaHl56pmZaUzzuhZlviqeqaU7duA==}
+    engines: {node: '>=16'}
+    dependencies:
+      maverick.js: 0.32.3
+      media-captions: 0.0.7
+      media-icons: 0.4.2
+      type-fest: 3.8.0
+    dev: false
 
   /vite/4.1.4:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}

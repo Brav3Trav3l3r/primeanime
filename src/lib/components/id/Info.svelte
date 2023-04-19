@@ -2,6 +2,7 @@
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { error } from '@sveltejs/kit';
 	import Card from '../Card.svelte';
+	import { onDestroy, onMount } from 'svelte';
 	export let anime;
 	export let title;
 	let maxLength = 350;
@@ -9,27 +10,33 @@
 		maxLength = 350;
 	});
 
-	$: if (anime.nextAiringEpisode) {
-		converTime(anime?.nextAiringEpisode.timeUntilAiring);
-	}
-	// $: console.log(anime.nextAiringEpisode.timeUntilAiring);
-
 	let time;
 
-	const converTime = async (unix_timestamp) => {
-		if (!unix_timestamp) {
-			return (time = null);
+	function convertTimestamp(timestamp) {
+		let d = new Date(timestamp * 1000), // Convert the passed timestamp to milliseconds
+			yyyy = d.getFullYear(),
+			mm = ('0' + (d.getMonth() + 1)).slice(-2), // Months are zero based. Add leading 0.
+			dd = ('0' + d.getDate()).slice(-2), // Add leading 0.
+			hh = d.getHours(),
+			h = hh,
+			min = ('0' + d.getMinutes()).slice(-2), // Add leading 0.
+			ampm = 'AM';
+
+		if (hh > 12) {
+			h = hh - 12;
+			ampm = 'PM';
+		} else if (hh === 12) {
+			h = 12;
+			ampm = 'PM';
+		} else if (hh == 0) {
+			h = 12;
 		}
 
-		let date = new Date(unix_timestamp * 1000);
-		let hours = date.getHours();
-		let minutes = '0' + date.getMinutes();
-		let seconds = '0' + date.getSeconds();
+		// ie: 2014-03-24, 3:00 PM
+		time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min + ' ' + ampm;
+	}
 
-		let formattedTime = hours + 'hr' + " " + minutes.substr(-2) + 'min' ;
-
-		return (time = formattedTime);
-	};
+	$: convertTimestamp(anime?.nextAiringEpisode?.airingTime);
 </script>
 
 <div class="anime ">
@@ -37,7 +44,7 @@
 		<div class="image h-80 w-fit aspect-[2/3] truncate">
 			<img src={anime.image} alt="" class="w-full h-full object-cover" />
 		</div>
-		<section class="flex-1 flex flex-col space-y-2">
+		<section class="flex-1 flex flex-col space-y-3">
 			<div class="title">
 				<h1 class="text-2xl font-semibold max-w-prose">{title}</h1>
 				<h1 class="max-w-prose">{anime.title?.romaji}</h1>
@@ -61,9 +68,10 @@
 					<h1>/</h1>
 					<h1>
 						<span class="text-sm opacity-60"
-							>episode {anime.nextAiringEpisode.episode} will air in :</span
+							>episode {anime.nextAiringEpisode.episode} will air on :</span
 						>
-						{time}
+
+						<span>{time}</span>
 					</h1>
 				{/if}
 			</div>
@@ -88,9 +96,14 @@
 					>
 				{/if}
 			</div>
+			<div class="rating bg-base-content/10 w-fit px-4 py-2 rounded-full">
+				<h1 class="text-accent">
+					<span class="text-base-content opacity-50 text-sm">Score:</span>
+					<span class="font-semibold">{anime.rating}</span>
+				</h1>
+			</div>
 		</section>
 	</div>
-
 
 	{#if anime.relations.length > 0}
 		<div class="relations mt-14">

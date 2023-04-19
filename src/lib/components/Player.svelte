@@ -5,51 +5,55 @@
 	import { page } from '$app/stores';
 
 	export let playingEp = null;
-	$: console.log(playingEp);
 
+	let ready = false;
 	let arr = $continueWatching;
 	let art;
 	let playingEpisode = null;
 	let currentTime = 0;
 	$: currentEpNumber = playingEp?.number ?? undefined;
+	$: currentTitle = playingEp?.title ?? undefined;
 	let captions = [];
 	let newArray = [];
 	let url;
 	let subSrc;
+	let engSub;
 	let proxy = 'https://m3u8-proxy-cors-eta.vercel.app/cors?url=';
+	let duration;
 
 	$: playingEpisode = {
 		id: $page.data.paramsId,
-		number: currentEpNumber,
-		time: currentTime
-	};
-
-	$:async () => {
-		console.log("change")
-		await getUrl(playingEp);
-		art.switchUrl(url);
-	};
-
-	const keyMap = {
-		lang: 'html',
-		url: 'url'
-	};
-
-	const createNewObjectWithChangedKeys = (obj, keyMap) => {
-		const newObj = {};
-		for (const key in obj) {
-			if (keyMap.hasOwnProperty(key)) {
-				if (key === 'lang') {
-					newObj[keyMap[key]] = `<span style="color:green">${obj[key]}</span>`;
-				} else {
-					newObj[keyMap[key]] = obj[key];
-				}
-			} else {
-				newObj[key] = obj[key];
+		title: $page.data.title,
+		image: $page.data.anime.image,
+		eps: [
+			{
+				number: currentEpNumber,
+				title: currentTitle,
+				time: currentTime,
+				duration: duration
 			}
-		}
-		return newObj;
+		]
 	};
+	// const keyMap = {
+	// 	lang: 'html',
+	// 	url: 'url'
+	// };
+
+	// const createNewObjectWithChangedKeys = (obj, keyMap) => {
+	// 	const newObj = {};
+	// 	for (const key in obj) {
+	// 		if (keyMap.hasOwnProperty(key)) {
+	// 			if (key === 'lang') {
+	// 				newObj[keyMap[key]] = `<span style="color:green">${obj[key]}</span>`;
+	// 			} else {
+	// 				newObj[keyMap[key]] = obj[key];
+	// 			}
+	// 		} else {
+	// 			newObj[key] = obj[key];
+	// 		}
+	// 	}
+	// 	return newObj;
+	// };
 
 	function playM3u8(video, url, art) {
 		if (Hls.isSupported()) {
@@ -81,7 +85,7 @@
 				escape: false,
 				style: {
 					color: '#fff',
-					'font-size': '30px'
+					'font-size': '24px'
 				}
 			},
 			caption: captions,
@@ -93,25 +97,23 @@
 			settings: [
 				{
 					html: 'Subtitle',
-					width: 250,
-					selector: newArray,
-					onSelect: async function (item, $dom, event) {
-						art.subtitle.url = item.url;
-						return item.html;
-					}
+					width: 250
+					// selector: newArray,
+					// onSelect: async function (item, $dom, event) {
+					// 	art.subtitle.url = item.url;
+					// 	return item.html;
+					// }
 				}
 			]
 		});
 
 		art.on('ready', async () => {
-			art.url = `${proxy}${url}`
-			const obj = await arr.find(
-				(obj) => obj['id'] === playingEpisode.id && obj['number'] === playingEpisode.number
-			);
-			if (obj) {
-				console.log('obj', obj);
-				art.seek = obj.time;
+			if (engSub) {
+				art.subtitle.url = engSub.url;
 			}
+			duration = art.duration;
+			const url = await art.getBlobUrl();
+			seekFunction();
 		});
 
 		art.on('video:timeupdate', () => {
@@ -120,20 +122,48 @@
 		art.on('destroy', () => {
 			console.info('destroy-event');
 		});
+		art.on('video:loadedmetadata', () => {
+			console.info('loaded');
+		});
 	});
 
 	onDestroy(async () => {
-		const foundIndex = await arr.findIndex(
-			(obj) => obj['id'] === playingEpisode.id && obj['number'] === playingEpisode.number
-		);
+		await updateContinueWatching();
+		playingEp = null;
+		art.destroy()
+	});
+
+	const seekFunction = async () => {
+		const foundIndex = await arr.findIndex((obj) => obj['id'] === $page.data.paramsId);
 		if (foundIndex !== -1) {
-			arr[foundIndex].time = playingEpisode.time;
+			const obj = arr[foundIndex].eps.find((obj) => obj['number'] === playingEpisode.eps[0].number);
+			if (obj) {
+				art.seek = obj.time;
+			}
+		}
+	};
+
+	const updateContinueWatching = async () => {
+		const foundIndex = await arr.findIndex((obj) => obj['id'] === $page.data.paramsId);
+		if (foundIndex !== -1) {
+			const obj = arr[foundIndex].eps.find((obj) => obj['number'] === playingEpisode.eps[0].number);
+			if (obj) {
+				obj.time = playingEpisode.eps[0].time;
+			} else {
+				arr[foundIndex].eps.push(playingEpisode.eps[0]);
+			}
 		} else {
 			arr.push(playingEpisode);
 		}
 		continueWatching.set(arr);
-		playingEp.set(null);
-	});
+	};
+
+	async function getDefaultSource(sources) {
+		const defaultSource = sources.find(
+			(source) => source.quality === 'auto' || source.quality === 'default'
+		);
+		url = defaultSource.url || sources[0].url;
+	}
 
 	const getUrl = async (id) => {
 		console.log('started');
@@ -141,16 +171,23 @@
 			const res = await fetch(
 				`https://api-consumet-rust.vercel.app/meta/anilist/watch/${id}?provider=${$currentProvider.value}`
 			);
-			const data = await res.json();
-			const sources = data.sources;
-			const obj = await sources.find((el) => el.quality === 'default' || el.quality === 'auto');
-			url = obj.url;
-			console.log(url);
+			const resJson = await res.json();
+			getDefaultSource(resJson.sources);
+
+			// if ($currentProvider.value === 'zoro') {
+			// 	console.log('getting subs');
+			// 	subSrc = data.subtitles;
+
+			// 	newArray = subSrc.map((obj) => createNewObjectWithChangedKeys(obj, keyMap));
+			// 	console.log(newArray);
+			// }
 			if ($currentProvider.value === 'zoro') {
 				console.log('getting subs');
-				subSrc = data.subtitles;
-				newArray = subSrc.map((obj) => createNewObjectWithChangedKeys(obj, keyMap));
-				console.log(newArray)
+				subSrc = resJson.subtitles;
+				const data = subSrc.find((obj) => obj.lang === 'English');
+				if (data) {
+					engSub = data;
+				}
 			}
 		}
 	};

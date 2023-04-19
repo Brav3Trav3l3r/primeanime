@@ -1,5 +1,5 @@
 import { redirect, error } from '@sveltejs/kit';
-import * as Vibrant from 'node-vibrant';
+import Vibrant from 'node-vibrant'
 
 export async function load({ params, fetch, setHeaders, url }) {
 	const dub = await url.searchParams.get('dub');

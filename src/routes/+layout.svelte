@@ -1,7 +1,7 @@
 <script>
 	import '../app.css';
 	export let data;
-	const { session } = data;
+	const { session} = data;
 	import { playerOn, currentEp } from '$lib/store/store.js';
 	import Player from '../lib/components/Player.svelte';
 	import { redirect } from '@sveltejs/kit';
@@ -14,6 +14,7 @@
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
 	import { AlignLeft } from 'lucide-svelte';
+	import Footer from '../lib/components/Footer.svelte';
 
 	NProgress.configure({ showSpinner: false });
 
@@ -51,7 +52,7 @@
 
 <div class="drawer drawer-mobile font-poppins">
 	<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content relative" bind:this={box} on:scroll={parseScroll}>
+	<div class="drawer-content relative flex flex-col justify-between" bind:this={box} on:scroll={parseScroll}>
 		<div class="slot relative z-0">
 			<slot />
 		</div>
@@ -60,10 +61,11 @@
 			class="z-10 absolute top-4 left-4 drawer-button lg:hidden text-white p-2 cursor-pointer"
 			><AlignLeft /></label
 		>
+		<Footer/>
 	</div>
 	<div class="drawer-side">
 		<label for="my-drawer-2" class="drawer-overlay" />
-		<Navbar />
+		<Navbar/>
 	</div>
 
 </div>
