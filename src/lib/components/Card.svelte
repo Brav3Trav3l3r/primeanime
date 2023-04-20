@@ -1,6 +1,7 @@
 <script>
 	export let anime;
 	export let recentEpisode = false;
+	export let showRating = false;
 	import {LazyImage} from 'svelte-lazy-image';
 	$: animeTitle = (anime.title?.english ?? anime.title.romaji) || anime.title;
 	import { addToLib, profile, lib, deleteFromLib } from '$lib/store/supaStore';
@@ -49,23 +50,25 @@
 					<div class="title ">
 						<h1 class="font-lato">{animeTitle}</h1>
 					</div>
-					<div class="info flex justify-between">
-						<h1 class="text-md text-neutral-content opacity-70">
-							<span class="font-roboto text-md"
-								>{anime.episodes || anime.totalEpisodes
-									? anime?.episodes ?? anime.totalEpisodes
-									: anime.episodeNumber || '?'}</span
-							>
-							<span class="text-sm ml-1 ">eps</span>
-						</h1>
-
-						{#if anime.rating}
-							<div class="rating flex items-center text-md gap-1 text-secondary">
-								<h1 class="font-roboto">{anime.rating}</h1>
-								<Percent size="16" />
-							</div>
-						{/if}
-					</div>
+					{#if showRating}
+						<div class="info flex justify-between">
+							<h1 class="text-md text-neutral-content opacity-70">
+								<span class="font-roboto text-md"
+									>{anime.episodes || anime.totalEpisodes
+										? anime?.episodes ?? anime.totalEpisodes
+										: anime.episodeNumber || '?'}</span
+								>
+								<span class="text-sm ml-1 ">eps</span>
+							</h1>
+	
+							{#if anime.rating}
+								<div class="rating flex items-center text-md gap-1 text-secondary">
+									<h1 class="font-roboto">{anime.rating}</h1>
+									<Percent size="16" />
+								</div>
+							{/if}
+						</div>
+					{/if}
 				</div>
 				{#if recentEpisode}
 					<div

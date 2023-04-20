@@ -55,7 +55,7 @@
 			<div class="icon bg-gradient-to-tr from-secondary to-base-content p-2 rounded-md">
 				<RotateCcw size=14 color=black strokeWidth=3/>
 			</div>
-			<h1 class="tracking-wider text-sm">Continue watching</h1>
+			<a href="/continue-watching" class="tracking-wider text-sm">Continue watching</a>
 		</div>
 	</div>
 

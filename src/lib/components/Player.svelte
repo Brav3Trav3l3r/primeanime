@@ -3,6 +3,9 @@
 	import { onDestroy, onMount } from 'svelte';
 	import Artplayer from 'artplayer';
 	import { page } from '$app/stores';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	export let playingEp = null;
 
@@ -32,7 +35,7 @@
 				time: currentTime,
 				duration: duration
 			}
-		]
+		],
 	};
 	// const keyMap = {
 	// 	lang: 'html',
@@ -128,9 +131,13 @@
 	});
 
 	onDestroy(async () => {
+		art.destroy()
 		await updateContinueWatching();
 		playingEp = null;
-		art.destroy()
+		dispatch('updateWatching', {
+			text: 'Update it man!'
+		});
+		console.log('destroy')
 	});
 
 	const seekFunction = async () => {
@@ -152,7 +159,7 @@
 			} else {
 				arr[foundIndex].eps.push(playingEpisode.eps[0]);
 			}
-		} else {
+		} else if(playingEpisode.eps[0].time > 20){
 			arr.push(playingEpisode);
 		}
 		continueWatching.set(arr);

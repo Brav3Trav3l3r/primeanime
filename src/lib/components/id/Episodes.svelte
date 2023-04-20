@@ -10,22 +10,26 @@
 	import PlayerTwo from '../PlayerTwo.svelte';
 	import Card from '../Card.svelte';
 
-	let filterd = []
+	let filterd = [];
 
 	const getFilterdWatching = async () => {
-		const objinContinueWatching =await $continueWatching.find((obj) => obj['id'] === $page.data.paramsId);
-		filterd = objinContinueWatching.eps
-			.map((episode) => {
-				const percent = (episode.time / episode.duration) * 100;
-				return { number: episode.number, percent: percent };
-			})
-			.filter((episode) => {
-				return episode.percent > 5;
-			});
-		console.log(filterd)	
+		const objinContinueWatching = await $continueWatching.find(
+			(obj) => obj['id'] === $page.data.paramsId
+		);
+		if (objinContinueWatching) {
+			filterd = objinContinueWatching?.eps
+				.map((episode) => {
+					const percent = (episode.time / episode.duration) * 100;
+					return { number: episode.number, percent: percent };
+				})
+				.filter((episode) => {
+					return episode.percent > 1;
+				});
+			console.log(filterd);
+		}
 	};
 
-	getFilterdWatching()
+	getFilterdWatching();
 
 	afterNavigate(() => {
 		console.log('navigate');
@@ -47,7 +51,7 @@
 		<div class="space-y-4 mx-auto max-w-[960px]">
 			<div class="player group aspect-video bg-base-300 truncate relative">
 				{#key playingEp}
-					<Player {playingEp} />
+					<Player {playingEp} on:updateWatching={getFilterdWatching} />
 				{/key}
 				<button
 					on:click={() => {
@@ -113,7 +117,6 @@
 						on:click={async () => {
 							if (playingEp != ep) {
 								playingEp = ep;
-								getFilterdWatching()
 							} else {
 								alert('Already playing');
 							}
@@ -131,12 +134,19 @@
 								</div>
 							</div>
 						{/if}
-						{#if filterd.some((obj) => obj.number === ep.number)}
-							<div class="layer absolute inset-0 bg-base-100/50 flex items-end">
-								<div
+						{#if filterd.length > 0 && filterd.some((obj) => obj.number === ep.number)}
+							<div class="layer absolute inset-0 bg-black/60 flex items-end">
+								<!-- <div
 									class="transparent relative w-full z-0 inset-y-0 border-b-4 border-base-content/60"
+								/> -->
+								<div
+									style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
+									class="transparent absolute z-10 inset-y-0 border-b-4 border-primary"
 								/>
-								<div style="width: {filterd.find(eps=>eps.number === ep.number).percent}%;" class="transparent absolute z-10 inset-y-0 border-b-4 border-primary" />
+								<div
+									style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
+									class="transparent blur absolute z-10 inset-y-0 border-b-4 border-primary"
+								/>
 							</div>
 						{/if}
 					</figure>

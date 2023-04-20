@@ -75,26 +75,26 @@
 </div>
 <main class="p-4 space-y-10 mt-10">
 	<div class="trending space-y-3">
-		<h1 class="text-xl font-bold">Trending</h1>
+		<h1 class="text-xl font-semibold">Trending</h1>
 		<div class="grid gap-3 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 ">
 			{#each trending as anime}
-				<Card {anime} {session} />
+				<Card {anime} {session} showRating=true/>
 			{/each}
 		</div>
 	</div>
 	<div class="recent space-y-3">
-		<h1 class="text-xl font-bold">Recent Episodes</h1>
+		<h1 class="text-xl font-semibold">Recent Episodes</h1>
 		<div class="grid gap-3 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 ">
 			{#each recent as anime}
-				<Card {anime} {session} recentEpisode=true/>
+				<Card {anime} {session} showRating=true recentEpisode=true/>
 			{/each}
 		</div>
 	</div>
 	<div class="popular space-y-3">
-		<h1 class="text-xl font-bold">Popular</h1>
+		<h1 class="text-xl font-semibold">Popular</h1>
 		<div class="grid gap-3 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 ">
 			{#each popular as anime}
-				<Card {anime} {session} />
+				<Card {anime} {session} showRating=true/>
 			{/each}
 		</div>
 	</div>

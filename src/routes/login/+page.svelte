@@ -49,7 +49,7 @@
 			</div>
 			<p class="px-6 text-sm text-center opacity-75">
 				Don't have an account yet?
-				<a rel="noopener noreferrer" href="#" class="hover:underline text-primary">Sign up</a>.
+				<a rel="noopener noreferrer" href="/register" class="hover:underline text-primary">Sign up</a>.
 			</p>
 		</div>
 	</form>

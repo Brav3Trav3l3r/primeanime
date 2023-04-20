@@ -39,7 +39,7 @@
 	$: convertTimestamp(anime?.nextAiringEpisode?.airingTime);
 </script>
 
-<div class="anime ">
+<div class="anime space-y-10">
 	<div class="flex flex-col md:flex-row gap-6">
 		<div class="image h-80 w-fit aspect-[2/3] truncate">
 			<img src={anime.image} alt="" class="w-full h-full object-cover" />
@@ -104,28 +104,37 @@
 			</div>
 		</section>
 	</div>
+	{#if anime.trailer}
+		<iframe
+			allowfullscreen
+			width="420"
+			height="315"
+			{title}
+			src="https://www.youtube.com/embed/{anime.trailer.id}"
+		/>
+	{/if}
 
 	{#if anime.relations.length > 0}
-		<div class="relations mt-14">
+		<div class="relations">
 			<h1 class="text-xl font-semibold">Related</h1>
 			<div
 				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 mt-6"
 			>
 				{#each anime.relations as anime}
-					<Card {anime} />
+					<Card {anime} showRating=true/>
 				{/each}
 			</div>
 		</div>
 	{/if}
 	{#if anime.recommendations.length > 0}
-		<div class="recommendations mt-14">
+		<div class="recommendations">
 			<h1 class="text-xl font-semibold">Recommendations</h1>
 			<div
 				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 mt-6"
 			>
 				{#each anime.recommendations as anime}
 					{#if anime.id}
-						<Card {anime} />
+						<Card {anime} showRating=true/>
 					{/if}
 				{/each}
 			</div>
