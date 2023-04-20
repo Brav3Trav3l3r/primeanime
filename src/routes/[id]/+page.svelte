@@ -45,7 +45,7 @@
 		<div class="content ">
 			<div
 				style:background-image="linear-gradient(0deg, transparent, {color || 'gray'}"
-				class="gradient h-64 absolute inset-x-0 top-0 brightness-[0.3] "
+				class="gradient h-64 absolute inset-x-0 top-0 brightness-[0.4] "
 			/>
 
 			<div class="group-1 relative z-20 ">

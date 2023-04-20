@@ -124,7 +124,7 @@
 						on:keydown
 						class="aspect-video relative"
 					>
-						<img src={ep.image} alt={ep.title} class="h-full w-full object-cover" />
+						<img src="https://proxy-for-movie-app.yashgajbhiye10.workers.dev/{ep.image}" alt={ep.title} class="h-full w-full object-cover" />
 						{#if playingEp?.id === ep.id}
 							<div class="layer absolute inset-0 bg-base-300/80 flex items-center justify-center">
 								<div class="play bg-primary p-3 rounded-full flex items-center justify-center">

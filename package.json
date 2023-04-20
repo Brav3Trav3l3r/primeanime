@@ -1,7 +1,7 @@
 {
 	"name": "supabasedemo",
 	"version": "0.0.1",
-	"private": true,
+	"\rivate": true,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
