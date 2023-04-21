@@ -1,14 +1,8 @@
 <script>
-	import {
-		Play,
-		Heart,
-		MoreHorizontal,
-		CheckCircle,
-		ChevronsUpDown
-	} from 'lucide-svelte';
+	import { Play, Heart, MoreHorizontal, CheckCircle, ChevronsUpDown } from 'lucide-svelte';
 	import { addToLib, profile, lib, deleteFromLib } from '$lib/store/supaStore';
 	import { page } from '$app/stores';
-	import { currentProvider, isDub } from '$lib/store/store.js';
+	import { currentProvider, isDub, continueWatching } from '$lib/store/store.js';
 	let pageForm;
 	import { invalidate, goto } from '$app/navigation';
 	$: query = $page.data.query;
@@ -46,14 +40,27 @@
 		{ value: 'true', name: 'Dub', unavailable: false }
 	];
 
-	$: selectedDubValue = dubValue.find((e) => (e.value === $isDub.value));
+	$: selectedDubValue = dubValue.find((e) => e.value === $isDub.value);
 </script>
 
 <div class="controls  flex items-center justify-between">
 	<div class="group-1 flex items-center gap-6 ">
-		<div class="play bg-primary p-3 rounded-full flex items-center justify-center">
+		<div
+			class="play active:scale-95 cursor-pointer bg-primary p-3 rounded-full flex items-center justify-center"
+		>
 			<div class="icon translate-x-0.5">
 				<Play fill="black" size="32" strokeWidth="0" />
+			</div>
+		</div>
+		<div class="continue-watching">
+			<h1>Epidode 3</h1>
+			<h1>Continue Watching</h1>
+			<div class="percent-watched relative mt-2">
+				<hr class="opacity-20 border-2" />
+				<div class="absolute w-1/2 top-0">
+					<hr class="border-secondary w-full border-2 absolute blur-sm" />
+					<hr class="border-secondary w-full border-2 absolute" />
+				</div>
 			</div>
 		</div>
 		<div class="heart-icon brightness-95 hover:brightness-90 cursor-pointer ">
@@ -116,12 +123,15 @@
 						<ListboxOption
 							value={source}
 							disabled={source.unavailable}
-							class={({ active }) => (active ? 'bg-base-content/10 py-2 px-3 flex justify-between items-center' : 'py-2 px-3 opacity-50 flex justify-between items-center')}
+							class={({ active }) =>
+								active
+									? 'bg-base-content/10 py-2 px-3 flex justify-between items-center'
+									: 'py-2 px-3 opacity-50 flex justify-between items-center'}
 							let:selected
 						>
 							{source.name}
 							{#if selected}
-								<CheckCircle size=16 color=green/>
+								<CheckCircle size="16" color="green" />
 							{/if}
 						</ListboxOption>
 					{/each}
@@ -152,18 +162,20 @@
 						<ListboxOption
 							value={val}
 							disabled={val.unavailable}
-							class={({ active }) => (active ? 'bg-base-content/10 py-2 px-3 flex justify-between items-center' : 'py-2 px-3 opacity-50 flex justify-between items-center')}
+							class={({ active }) =>
+								active
+									? 'bg-base-content/10 py-2 px-3 flex justify-between items-center'
+									: 'py-2 px-3 opacity-50 flex justify-between items-center'}
 							let:selected
 						>
 							{val.name}
 							{#if selected}
-								<CheckCircle size=16 color=green/>
+								<CheckCircle size="16" color="green" />
 							{/if}
 						</ListboxOption>
 					{/each}
 				</ListboxOptions>
 			</Transition>
 		</Listbox>
-		
 	</div>
 </div>

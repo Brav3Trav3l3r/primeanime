@@ -17,15 +17,9 @@
 			(obj) => obj['id'] === $page.data.paramsId
 		);
 		if (objinContinueWatching) {
-			filterd = objinContinueWatching?.eps
-				.map((episode) => {
-					const percent = (episode.time / episode.duration) * 100;
-					return { number: episode.number, percent: percent };
-				})
-				.filter((episode) => {
-					return episode.percent > 1;
-				});
-			console.log(filterd);
+			filterd = objinContinueWatching?.eps.map((episode) => {
+				return { number: episode.number, percent: episode.percent };
+			});
 		}
 	};
 

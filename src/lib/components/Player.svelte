@@ -33,9 +33,11 @@
 				number: currentEpNumber,
 				title: currentTitle,
 				time: currentTime,
-				duration: duration
+				duration: duration,
+				percent: (currentTime / duration) * 100
 			}
 		],
+		lastWatched: currentEpNumber
 	};
 	// const keyMap = {
 	// 	lang: 'html',
@@ -131,13 +133,13 @@
 	});
 
 	onDestroy(async () => {
-		art.destroy()
+		art.destroy();
 		await updateContinueWatching();
 		playingEp = null;
 		dispatch('updateWatching', {
 			text: 'Update it man!'
 		});
-		console.log('destroy')
+		console.log('destroy');
 	});
 
 	const seekFunction = async () => {
@@ -156,10 +158,11 @@
 			const obj = arr[foundIndex].eps.find((obj) => obj['number'] === playingEpisode.eps[0].number);
 			if (obj) {
 				obj.time = playingEpisode.eps[0].time;
-			} else {
+			} else if (playingEpisode.eps[0].time > 20){
 				arr[foundIndex].eps.push(playingEpisode.eps[0]);
 			}
-		} else if(playingEpisode.eps[0].time > 20){
+			arr[foundIndex].lastWatched = playingEpisode.lastWatched;
+		} else if (playingEpisode.eps[0].time > 20) {
 			arr.push(playingEpisode);
 		}
 		continueWatching.set(arr);
