@@ -37,7 +37,10 @@
 				percent: (currentTime / duration) * 100
 			}
 		],
-		lastWatched: currentEpNumber
+		lastWatched: {
+			percent: (currentTime / duration) * 100,
+			number: currentEpNumber
+		}
 	};
 	// const keyMap = {
 	// 	lang: 'html',
@@ -158,10 +161,12 @@
 			const obj = arr[foundIndex].eps.find((obj) => obj['number'] === playingEpisode.eps[0].number);
 			if (obj) {
 				obj.time = playingEpisode.eps[0].time;
-			} else if (playingEpisode.eps[0].time > 20){
+			} else if (playingEpisode.eps[0].time > 20) {
 				arr[foundIndex].eps.push(playingEpisode.eps[0]);
 			}
-			arr[foundIndex].lastWatched = playingEpisode.lastWatched;
+			if (playingEpisode.eps[0].time > 20) {
+				arr[foundIndex].lastWatched = playingEpisode.lastWatched;
+			}
 		} else if (playingEpisode.eps[0].time > 20) {
 			arr.push(playingEpisode);
 		}

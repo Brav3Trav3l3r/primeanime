@@ -5,25 +5,12 @@
 	import { paginate, PaginationNav } from 'svelte-paginate';
 	import Player from '../Player.svelte';
 	import { afterNavigate } from '$app/navigation';
-	import { page } from '$app/stores';
 	import Player3 from '../Player3.svelte';
 	import PlayerTwo from '../PlayerTwo.svelte';
 	import Card from '../Card.svelte';
 
-	let filterd = [];
+	export let filterd = [];
 
-	const getFilterdWatching = async () => {
-		const objinContinueWatching = await $continueWatching.find(
-			(obj) => obj['id'] === $page.data.paramsId
-		);
-		if (objinContinueWatching) {
-			filterd = objinContinueWatching?.eps.map((episode) => {
-				return { number: episode.number, percent: episode.percent };
-			});
-		}
-	};
-
-	getFilterdWatching();
 
 	afterNavigate(() => {
 		console.log('navigate');
@@ -42,10 +29,10 @@
 
 <div class="main space-y-8 w-full">
 	{#if playingEp}
-		<div class="space-y-4 mx-auto max-w-[960px]">
-			<div class="player group aspect-video bg-base-300 truncate relative">
+		<div id='player' class="space-y-4 mx-auto max-w-[960px]">
+			<div  class="player group aspect-video bg-base-300 truncate relative">
 				{#key playingEp}
-					<Player {playingEp} on:updateWatching={getFilterdWatching} />
+					<Player {playingEp} on:updateWatching/>
 				{/key}
 				<button
 					on:click={() => {
@@ -107,7 +94,7 @@
 		>
 			{#each paginatedItems as ep (ep.id)}
 				<div class="ep-card space-y-2">
-					<figure
+					<a href="#player"><figure
 						on:click={async () => {
 							playingEp = ep;
 						}}
@@ -143,7 +130,7 @@
 								/>
 							</div>
 						{/if}
-					</figure>
+					</figure></a>
 
 					<div class="card-content space-y-2">
 						<h2 class="">{ep?.number}. {ep?.title ?? `Episodes ${ep?.number}`}</h2>

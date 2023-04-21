@@ -7,6 +7,9 @@
 	import { invalidate, goto } from '$app/navigation';
 	$: query = $page.data.query;
 	export let anime;
+	export let currentAnimeObj
+	export let availableInContinue = false
+	$:console.log(currentAnimeObj)
 
 	$: if (query.provider != $currentProvider.value) {
 		const value = sources.find((e) => e.value === query.provider);
@@ -52,17 +55,19 @@
 				<Play fill="black" size="32" strokeWidth="0" />
 			</div>
 		</div>
-		<div class="continue-watching">
-			<h1>Epidode 3</h1>
-			<h1>Continue Watching</h1>
-			<div class="percent-watched relative mt-2">
-				<hr class="opacity-20 border-2" />
-				<div class="absolute w-1/2 top-0">
-					<hr class="border-secondary w-full border-2 absolute blur-sm" />
-					<hr class="border-secondary w-full border-2 absolute" />
+		{#if availableInContinue}
+			<div class="continue-watching">
+				<h1>Epidode {currentAnimeObj?.lastWatched?.number}</h1>
+				<h1>Continue Watching</h1>
+				<div class="percent-watched relative mt-2">
+					<hr class="opacity-20 border-2" />
+					<div style="width:{currentAnimeObj?.lastWatched?.percent}%;" class="absolute w-1/2 top-0">
+						<hr class="border-secondary w-full border-2 absolute blur-sm" />
+						<hr class="border-secondary w-full border-2 absolute" />
+					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		<div class="heart-icon brightness-95 hover:brightness-90 cursor-pointer ">
 			{#if $lib && $profile && $lib?.includes(anime.id)}
 				<button

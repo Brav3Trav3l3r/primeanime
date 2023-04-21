@@ -6,6 +6,8 @@
 	$: query = data.query;
 	$: paramsId = data.paramsId
 
+	import { page } from '$app/stores';
+
 	import {
 		Tab,
 		TabGroup,
@@ -22,13 +24,37 @@
 	import Title from '../../lib/components/id/Title.svelte';
 	import Episodes from '../../lib/components/id/Episodes.svelte';
 	import { ChevronRight } from 'lucide-svelte';
-	import { onMount } from 'svelte';
+	import { currentProvider, continueWatching } from '$lib/store/store.js';
+	import { afterNavigate } from '$app/navigation';
+
 
 	let box;
-	
-	onMount(()=>{
-		
-	})
+
+	let filterd = []
+	let currentAnimeObj
+	let availableInContinue = false
+
+	const getFilterdWatching = async () => {
+		currentAnimeObj = await $continueWatching.find(
+			(obj) => obj['id'] === $page.data.paramsId
+		);
+		if (currentAnimeObj) {
+			availableInContinue = true
+			filterd = currentAnimeObj?.eps.map((episode) => {
+				return { number: episode.number, percent: episode.percent };
+			});
+		}else{
+			availableInContinue = false
+			filterd = []
+		}
+	};
+
+	afterNavigate(()=>[
+		getFilterdWatching()
+	])
+
+	getFilterdWatching();
+
 </script>
 
 <div class="main relative">
@@ -50,7 +76,7 @@
 
 			<div class="group-1 relative z-20 ">
 				<div class=" relative z-20 p-6">
-					<Controls {anime} {paramsId} {query}/>
+					<Controls {anime} {paramsId} {query} {currentAnimeObj} {availableInContinue}/>
 				</div>
 
 				<TabGroup class="relative z-10">
@@ -83,7 +109,7 @@
 							<Info {anime} {title} />
 						</TabPanel>
 						<TabPanel class="focus:outline-none">
-							<Episodes {anime} />
+							<Episodes {filterd} {anime} on:updateWatching={getFilterdWatching} />
 						</TabPanel>
 						<TabPanel class="focus:outline-none">
 							<div class="antialiased max-w-screen-sm">
