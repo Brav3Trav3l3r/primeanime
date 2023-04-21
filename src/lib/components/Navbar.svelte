@@ -8,17 +8,18 @@
 </script>
 
 <div class="main px-4 menu py-8 w-72 flex flex-col gap-8 bg-black text-base-content">
-	<div class="relative flex items-center ">
+	<form method="POST" action="/search" class="relative flex items-center ">
 		<span class="absolute left-3 text-neutral-content/50">
 			<Search size="20" />
 		</span>
 
 		<input
-			type="email"
+			type="search"
+			name="query"
 			placeholder="Search"
 			class="block w-full py-2.5 text-base-content placeholder:text-neutral-content/50 rounded pl-11 pr-6 rtl:pr-11 rtl:pl-5 bg-neutral-content/10 focus:ring-neutral-content focus:outline-none focus:ring focus:ring-opacity-20"
 		/>
-	</div>
+	</form >
 
 	<div
 		class="mainlinks space-y-4 text-sm font-medium "
@@ -63,7 +64,7 @@
 		{#if $page.data.session}
 			<div class="avatar items-center">
 				<div class="w-12 rounded-full ">
-					<img src={$profile?.avatar_url ?? defImage} alt="profile" />
+					<img src={$profile?.avatar_url} alt="profile" />
 				</div>
 			</div>
 
