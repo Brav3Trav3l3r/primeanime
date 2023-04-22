@@ -28,6 +28,8 @@
 		id: $page.data.paramsId,
 		title: $page.data.title,
 		image: $page.data.anime.image,
+		rating:$page.data.anime.rating,
+		totalEpisodes: $page.data.anime.totalEpisodes,
 		eps: [
 			{
 				number: currentEpNumber,

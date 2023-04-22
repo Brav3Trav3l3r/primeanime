@@ -10,6 +10,8 @@
 	$: query = $page.data.query;
 	import { page } from '$app/stores';
 
+	$: console.log($lib)
+
 	$: if (query.provider != $currentProvider.value) {
 		const value = sources.find((e) => e.value === query.provider);
 		currentProvider.set(value);

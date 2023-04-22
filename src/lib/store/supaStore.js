@@ -43,7 +43,7 @@ export const addToLib = async(n, anime ) =>{
          arr = (n.library)
     }
     
-    let newArr =  [{id:anime.id, image:anime.image, rating:anime.rating, totalEpisodes:anime.totalEpisodes, title:(anime.title?.english ?? anime.title.romaji)}, ...arr]
+    let newArr =  [{id:anime.id.toString(), image:anime.image, rating:anime.rating, totalEpisodes:anime.totalEpisodes, title:(anime.title?.english ?? (anime.title?.romaji ?? anime.title))}, ...arr]
 
     const updates = {
         id:n.id,

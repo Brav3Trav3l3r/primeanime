@@ -12,7 +12,7 @@
 {#if anime.id}
 	<div class="card relative group">
 		<div class="absolute right-1 top-1 z-10 hidden group-hover:block ">
-			{#if $lib && $profile && $lib?.includes(anime.id)}
+			{#if $lib && $profile && $lib?.includes(anime.id.toString())}
 				<button
 					on:click={() => deleteFromLib($profile, anime)}
 					class="w-8 aspect-square bg-red-300 flex items-center justify-center rounded-full"
