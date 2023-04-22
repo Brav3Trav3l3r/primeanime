@@ -48,17 +48,17 @@
 					{/if}
 
 					<div class="title ">
-						<h1 class="font-lato">{animeTitle}</h1>
+						<h1 class="">{animeTitle}</h1>
 					</div>
 					{#if showRating}
 						<div class="info flex justify-between">
 							<h1 class="text-md text-neutral-content opacity-70">
-								<span class="font-roboto text-md"
+								<i class="font-roboto text-md"
 									>{anime.episodes || anime.totalEpisodes
 										? anime?.episodes ?? anime.totalEpisodes
-										: anime.episodeNumber || '?'}</span
+										: anime.episodeNumber || '?'}</i
 								>
-								<span class="text-sm ml-1 ">eps</span>
+								<i class="text-sm ml-1 ">eps</i>
 							</h1>
 	
 							{#if anime.rating}
@@ -72,10 +72,10 @@
 				</div>
 				{#if recentEpisode}
 					<div
-						class="absolute text-base-100 px-3 py-1 top-2 flex items-center justify-center right-0 bg-accent border-l-4 border-base-100"
+						class="absolute px-3 py-1 top-2 flex items-center justify-center left-0 bg-black"
 					>
-						<h1 class="font-roboto font-semibold text-sm">
-							{anime.episodeNumber}<span class="text-sm ml-1">eps</span>
+						<h1 class="text-xs">
+							<span class="text-accent">#</span> {anime.episodeNumber} 
 						</h1>
 					</div>
 				{/if}

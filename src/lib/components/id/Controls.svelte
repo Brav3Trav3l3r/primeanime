@@ -1,15 +1,14 @@
 <script>
 	import { Play, Heart, MoreHorizontal, CheckCircle, ChevronsUpDown } from 'lucide-svelte';
 	import { addToLib, profile, lib, deleteFromLib } from '$lib/store/supaStore';
-	import { page } from '$app/stores';
 	import { currentProvider, isDub, continueWatching } from '$lib/store/store.js';
 	let pageForm;
 	import { invalidate, goto } from '$app/navigation';
-	$: query = $page.data.query;
 	export let anime;
 	export let currentAnimeObj
 	export let availableInContinue = false
-	$:console.log(currentAnimeObj)
+	$: query = $page.data.query;
+	import { page } from '$app/stores';
 
 	$: if (query.provider != $currentProvider.value) {
 		const value = sources.find((e) => e.value === query.provider);

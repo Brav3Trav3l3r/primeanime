@@ -1,9 +1,13 @@
 import { redirect, error } from '@sveltejs/kit';
-import Vibrant from 'node-vibrant'
+import Vibrant from 'node-vibrant';
+
+const providers = ['zoro', 'enime', 'gogoanime', 'animephae', 'marin'];
+const type = ['true', 'false'];
 
 export async function load({ params, fetch, setHeaders, url }) {
 	const dub = await url.searchParams.get('dub');
 	const provider = await url.searchParams.get('provider');
+
 	const res = await fetch(
 		`https://api-consumet-rust.vercel.app/meta/anilist/info/${params.id}?dub=${dub}&provider=${provider}`
 	);
@@ -13,9 +17,10 @@ export async function load({ params, fetch, setHeaders, url }) {
 	if (res.ok) {
 		setHeaders({ 'cache-control': 'max-age=60' });
 	} else {
-		throw error(404, {
-			message: 'No returned data from api'
-		});
+		throw redirect(
+			303,
+			`/${params.id}?dub=${dub}&provider=${providers.find((e) => e !== provider)}`
+		);
 	}
 
 	let color = null;

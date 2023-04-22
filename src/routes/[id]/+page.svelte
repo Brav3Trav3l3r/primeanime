@@ -4,7 +4,7 @@
 	$: color = data.color;
 	$: title = data.title;
 	$: query = data.query;
-	$: paramsId = data.paramsId
+	$: paramsId = data.paramsId;
 
 	import { page } from '$app/stores';
 
@@ -27,40 +27,34 @@
 	import { currentProvider, continueWatching } from '$lib/store/store.js';
 	import { afterNavigate } from '$app/navigation';
 
-
 	let box;
 
-	let filterd = []
-	let currentAnimeObj
-	let availableInContinue = false
+	let filterd = [];
+	let currentAnimeObj;
+	let availableInContinue = false;
 
 	const getFilterdWatching = async () => {
-		currentAnimeObj = await $continueWatching.find(
-			(obj) => obj['id'] === $page.data.paramsId
-		);
+		currentAnimeObj = await $continueWatching.find((obj) => obj['id'] === $page.data.paramsId);
 		if (currentAnimeObj) {
-			availableInContinue = true
+			availableInContinue = true;
 			filterd = currentAnimeObj?.eps.map((episode) => {
 				return { number: episode.number, percent: episode.percent };
 			});
-		}else{
-			availableInContinue = false
-			filterd = []
+		} else {
+			availableInContinue = false;
+			filterd = [];
 		}
 	};
 
-	afterNavigate(()=>[
-		getFilterdWatching()
-	])
+	afterNavigate(() => getFilterdWatching());
 
 	getFilterdWatching();
-
 </script>
 
 <div class="main relative">
 	<!-- <h1>{anime.id}</h1> -->
-	<div  class="cover h-[350px] sticky top-0 z-0">
-		<Cover {anime} {color}/>
+	<div class="cover h-[350px] sticky top-0 z-0">
+		<Cover {anime} {color} />
 	</div>
 
 	<div class="title absolute h-[350px] inset-0 z-10">
@@ -76,33 +70,41 @@
 
 			<div class="group-1 relative z-20 ">
 				<div class=" relative z-20 p-6">
-					<Controls {anime} {paramsId} {query} {currentAnimeObj} {availableInContinue}/>
+					<Controls {anime} {paramsId} {query} {currentAnimeObj} {availableInContinue} />
 				</div>
 
-				<TabGroup class="relative z-10">
+				<TabGroup
+					class="relative z-10"
+					on:change={(e) => console.log('Changed selected tab to:', e.detail)}
+				>
 					<TabList
-					as="div"
-					bind:this={box}
+						as="div"
+						bind:this={box}
 						role="list"
-						class="flex items-center gap-2 h-16 sticky top-[-1px] z-10 bg-base-300/80 px-6 backdrop-blur-md"
+						class="flex border-b-2 border-base-content/10 backdrop-blur bg-base-100/80 items-center gap-2 h-16 sticky top-[-1px] z-10  px-6 "
 					>
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}> Info </span>
+							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}>
+								Info
+							</span>
 						</Tab>
 
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}>Episodes</span>
+							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}
+								>Episodes</span
+							>
 						</Tab>
 
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}> Comments </span>
+							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}>
+								Comments
+							</span>
 						</Tab>
 					</TabList>
-	
 
 					<TabPanels class=" relative z-0 p-6 ">
 						<TabPanel class="focus:outline-none">
@@ -113,7 +115,6 @@
 						</TabPanel>
 						<TabPanel class="focus:outline-none">
 							<div class="antialiased max-w-screen-sm">
-
 								<div class="space-y-4">
 									<div class="flex">
 										<div class="flex-shrink-0 mr-3">
@@ -240,10 +241,8 @@
 	</div>
 </div>
 
-
 <style>
-	
-.is-pinned {
-  color: red;
-}
+	.is-pinned {
+		color: red;
+	}
 </style>

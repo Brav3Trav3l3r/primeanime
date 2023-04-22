@@ -93,7 +93,7 @@
 				escape: false,
 				style: {
 					color: '#fff',
-					'font-size': '24px'
+					fontSize: '32px'
 				}
 			},
 			caption: captions,
@@ -186,8 +186,12 @@
 			const res = await fetch(
 				`https://api-consumet-rust.vercel.app/meta/anilist/watch/${id}?provider=${$currentProvider.value}`
 			);
-			const resJson = await res.json();
-			getDefaultSource(resJson.sources);
+			let resJson;
+
+			if (res.ok) {
+				resJson = await res.json();
+				getDefaultSource(resJson.sources);
+			}
 
 			// if ($currentProvider.value === 'zoro') {
 			// 	console.log('getting subs');
