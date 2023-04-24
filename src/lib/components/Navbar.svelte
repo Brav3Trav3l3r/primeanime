@@ -56,7 +56,7 @@
 		{:else}
 			<a
 				href="/login"
-				class="w-full bg-secondary hover:bg-secondary-focus rounded items-center flex justify-center h-12"
+				class="w-full bg-neutral hover:bg-neutral-focus rounded items-center flex justify-center h-12"
 			>
 				<h1 class="text-md">Login</h1>
 			</a>
