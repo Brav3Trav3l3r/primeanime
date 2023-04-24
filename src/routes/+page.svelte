@@ -77,14 +77,18 @@
 </div> -->
 
 {#if $continueWatching.length > 0}
-	<div class="continue-watching mt-6 p-6 border-b-2 border-base-content/20">
+	<div class="continue-watching mt-8 p-6 ">
 		<h1 class="text-lg font-medium mb-4">Recently Watched</h1>
 		<div class="grid grid-cols-4 gap-2 gap-y-4">
 			{#each $continueWatching as anime}
 				<div class="mian flex flex-col gap-2 ">
 					<a href="/{anime.id}?dub={$isDub.value}&provider={$currentProvider.value}"
 						><div class="card aspect-video relative ">
-							<img class="w-full h-full object-cover" src="https://proxy-for-movie-app.yashgajbhiye10.workers.dev/{anime.eps[0].image}" alt="" />
+							<img
+								class="w-full h-full object-cover"
+								src="https://proxy-for-movie-app.yashgajbhiye10.workers.dev/{anime.eps[0].image}"
+								alt=""
+							/>
 							<div class="absolute flex items-end bg-base-100/60 p-2 inset-0">
 								<i class="text-sm">{anime.eps[0].number}. {anime.eps[0].title}</i>
 							</div>
@@ -110,37 +114,35 @@
 	</div>
 {/if}
 
-<TabGroup class="p-4 ">
-	<TabList class="mb-4 py-3 border-base-content/10">
-		<Tab let:selected let:active class=""
+<TabGroup class="">
+	<TabList
+		class="flex border-b-2 border-base-content/20 backdrop-blur bg-base-100/80 items-center gap-2 h-16 sticky top-0 z-10  px-6 "
+	>
+		<Tab let:selected let:active
 			><span
 				let:selected
 				let:active
-				class={selected
-					? 'bg-base-content/20 p-3 rounded-md text-sm font-medium'
-					: 'p-3 text-sm opacity-50 font-medium'}>Trending</span
+				class={selected ? 'text-base-content font-semibold' : 'font-semibold opacity-50'}>Trending</span
 			></Tab
 		>
-		<Tab let:selected let:active class=" "
+		<ChevronRight size="16" strokeWidth="3" color="#636061" />
+		<Tab let:selected let:active 
 			><span
 				let:selected
 				let:active
-				class={selected
-					? 'bg-base-content/20 p-3 rounded-md text-sm font-medium'
-					: 'p-3 text-sm opacity-50 font-medium'}>Recent</span
+				class={selected ? 'text-base-content font-semibold' : 'font-semibold opacity-50'}>Recent</span
 			></Tab
 		>
-		<Tab let:selected let:active class=" "
+		<ChevronRight size="16" strokeWidth="3" color="#636061" />
+		<Tab let:selected let:active
 			><span
 				let:selected
 				let:active
-				class={selected
-					? 'bg-base-content/20 p-3 rounded-md text-sm font-medium'
-					: 'p-3 text-sm opacity-50 font-medium'}>Popular</span
+				class={selected ? 'text-base-content font-semibold' : 'font-semibold opacity-50'}>Popular</span
 			></Tab
 		>
 	</TabList>
-	<TabPanels>
+	<TabPanels class="p-6">
 		<TabPanel
 			class="grid gap-3 gap-y-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 "
 			>{#each trending as anime}

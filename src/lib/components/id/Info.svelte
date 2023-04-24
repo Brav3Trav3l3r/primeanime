@@ -107,8 +107,8 @@
 	{#if anime.trailer}
 		<iframe
 			allowfullscreen
-			width="420"
-			height="315"
+			
+			class="w-full max-w-[450px] aspect-video"
 			{title}
 			src="https://www.youtube.com/embed/{anime.trailer.id}"
 		/>

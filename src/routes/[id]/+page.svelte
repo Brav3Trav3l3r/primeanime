@@ -84,7 +84,7 @@
 						class="flex border-b-2 border-base-content/10 backdrop-blur bg-base-100/80 items-center gap-2 h-16 sticky top-[-1px] z-10  px-6 "
 					>
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}>
+							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}>
 								Info
 							</span>
 						</Tab>
@@ -92,7 +92,7 @@
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}
+							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}
 								>Episodes</span
 							>
 						</Tab>
@@ -100,7 +100,7 @@
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-semibold' : 'opacity-40'}>
+							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}>
 								Comments
 							</span>
 						</Tab>

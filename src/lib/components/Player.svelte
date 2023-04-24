@@ -88,6 +88,7 @@
 
 		art = new Artplayer({
 			container: '.artplayer-app',
+			theme: '#C58FFF',
 			url: `${proxy}${url}`,
 			type: 'm3u8',
 			subtitle: {
@@ -104,18 +105,18 @@
 			customType: {
 				m3u8: playM3u8
 			},
-			setting: true,
-			settings: [
-				{
-					html: 'Subtitle',
-					width: 250
-					// selector: newArray,
-					// onSelect: async function (item, $dom, event) {
-					// 	art.subtitle.url = item.url;
-					// 	return item.html;
-					// }
-				}
-			],
+			// setting: true,
+			// settings: [
+			// 	{
+			// 		html: 'Subtitle',
+			// 		width: 250
+			// 		// selector: newArray,
+			// 		// onSelect: async function (item, $dom, event) {
+			// 		// 	art.subtitle.url = item.url;
+			// 		// 	return item.html;
+			// 		// }
+			// 	}
+			// ],
 			icons: {
 				loading: '<img src="/dsgif.gif">'
 			}

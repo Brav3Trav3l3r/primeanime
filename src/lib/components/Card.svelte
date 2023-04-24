@@ -38,7 +38,7 @@
 				<div class="tooltip tooltip-right tooltip-primary" data-tip="Remove">
 					<button
 						on:click={() => removeFromContinuetWatching(anime)}
-						class="w-8 aspect-square bg-neutral hover:text-red-500 flex items-center justify-center rounded-full"
+						class="w-8 aspect-square bg-secondary text-base-100 hover:text-red-500 flex items-center justify-center rounded-full"
 						><X strokeWidth="2" size="20" /></button
 					>
 				</div>
@@ -72,7 +72,7 @@
 
 					{#if showRating}
 						<div class="info flex items-end justify-between">
-							<h1 class="text-md text-info">
+							<h1 class="text-info">
 								<i class="text-sm"
 									>{anime.episodes || anime.totalEpisodes
 										? anime?.episodes ?? anime.totalEpisodes

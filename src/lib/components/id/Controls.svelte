@@ -61,8 +61,8 @@
 				<div class="percent-watched relative mt-2">
 					<hr class="opacity-20 border-2" />
 					<div style="width:{currentAnimeObj?.lastWatched?.percent}%;" class="absolute w-1/2 top-0">
-						<hr class="border-primary w-full border-2 absolute blur-sm" />
-						<hr class="border-primary w-full border-2 absolute" />
+						<hr class="border-accent w-full border-2 absolute blur-sm" />
+						<hr class="border-accent w-full border-2 absolute" />
 					</div>
 				</div>
 			</div>

@@ -9,12 +9,8 @@
 		LogOut,
 		RotateCcw,
 		CalendarClock,
-
 		Grid,
-
 		LayoutDashboard
-
-
 	} from 'lucide-svelte';
 	import { fly, scale } from 'svelte/transition';
 	import { profile } from '$lib/store/supaStore.js';
@@ -56,7 +52,7 @@
 		{:else}
 			<a
 				href="/login"
-				class="w-full bg-neutral hover:bg-neutral-focus rounded items-center flex justify-center h-12"
+				class="w-full bg-accent hover:bg-accent-focus text-neutral font-medium rounded items-center flex justify-center h-12"
 			>
 				<h1 class="text-md">Login</h1>
 			</a>
@@ -72,14 +68,16 @@
 			type="search"
 			name="query"
 			placeholder="Search"
-			class="input placeholder:text-base-content/60 bg-neutral-content/10 rounded-md w-full max-w-xs"
+			class="input placeholder:text-base-content/60 bg-base-content/10 rounded-md w-full max-w-xs"
 		/>
 	</form>
 
 	<div class="mainlinks space-y-4 text-sm">
 		<h1 class="pb-2 text-xs font-semibold tracking-widest opacity-50 p-4">MENU</h1>
 		{#if $page.url.pathname === '/'}
-			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4  border-primary box-border">
+			<div
+				class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 text-primary border-primary box-border"
+			>
 				<LayoutDashboard />
 				<a href="/" class="tracking-wider text-sm ">Home</a>
 			</div>
@@ -90,19 +88,10 @@
 			</div>
 		{/if}
 
-		{#if $page.url.pathname === '/library'}
-			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
-				<Library />
-				<a href="/library" class="tracking-wider text-sm">Library</a>
-			</div>
-		{:else}
-			<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
-				<Library />
-				<a href="/library" class="tracking-wider text-sm">Library</a>
-			</div>
-		{/if}
 		{#if $page.url.pathname === '/airing-status'}
-			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+			<div
+				class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 text-primary border-secondary box-border"
+			>
 				<CalendarClock />
 				<a href="airing-status" class="tracking-wider text-sm">Airing Status</a>
 			</div>
@@ -113,7 +102,9 @@
 			</div>
 		{/if}
 		{#if $page.url.pathname === '/continue-watching'}
-			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+			<div
+				class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 text-primary border-secondary box-border"
+			>
 				<RotateCcw />
 				<a href="/continue-watching" class="tracking-wider text-sm">Continue watching</a>
 			</div>
@@ -125,18 +116,34 @@
 		{/if}
 	</div>
 
-	<div class="extra-links space-y-4 border-t-2 pt-6 border-neutral-content/20">
-		{#if $page.url.pathname === '/notification'}
-			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
-				<Bell />
-				<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
-			</div>
-		{:else}
-			<div class="icon text-3xl flex items-end space-x-4 pl-4">
-				<Bell />
-				<a href="/notification" class="tracking-wider text-sm opacity-50">Notifications</a>
-			</div>
-		{/if}
-	</div>
-
+	{#if $profile}
+		<div class="extra-links space-y-4 py-6 bg-neutral-content/10 border-neutral-content/20">
+			{#if $page.url.pathname === '/library'}
+				<div
+					class="icon text-3xl flex items-end space-x-4 text-primary border-l-2 pl-4 border-secondary box-border"
+				>
+					<Library />
+					<a href="/library" class="tracking-wider text-sm">Library</a>
+				</div>
+			{:else}
+				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+					<Library />
+					<a href="/library" class="tracking-wider text-sm">Library</a>
+				</div>
+			{/if}
+			{#if $page.url.pathname === '/notification'}
+				<div
+					class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 text-primary border-secondary box-border"
+				>
+					<Bell />
+					<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
+				</div>
+			{:else}
+				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+					<Bell />
+					<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
+				</div>
+			{/if}
+		</div>
+	{/if}
 </div>
