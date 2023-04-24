@@ -94,7 +94,7 @@
 							</div>
 							<div class="layer absolute inset-0 flex items-end">
 								<!-- <div
-								class="transparent relative w-full z-0 inset-y-0 border-b-4 border-base-content/60"
+								class="transparent relative w-full z-0 inset-y-0 border-b-4 border-base-content/20"
 							/> -->
 								<div
 									style="width: {anime.eps[0].percent}%;"
