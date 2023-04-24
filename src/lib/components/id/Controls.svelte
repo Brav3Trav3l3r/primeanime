@@ -10,8 +10,6 @@
 	$: query = $page.data.query;
 	import { page } from '$app/stores';
 
-	$: console.log($lib)
-
 	$: if (query.provider != $currentProvider.value) {
 		const value = sources.find((e) => e.value === query.provider);
 		currentProvider.set(value);
@@ -50,7 +48,7 @@
 <div class="controls  flex items-center justify-between">
 	<div class="group-1 flex items-center gap-6 ">
 		<div
-			class="play active:scale-95 cursor-pointer bg-primary p-3 rounded-full flex items-center justify-center"
+			class="play active:scale-95 cursor-pointer bg-primary hover:bg-secondary p-3 rounded-full flex items-center justify-center"
 		>
 			<div class="icon translate-x-0.5">
 				<Play fill="black" size="32" strokeWidth="0" />
@@ -63,8 +61,8 @@
 				<div class="percent-watched relative mt-2">
 					<hr class="opacity-20 border-2" />
 					<div style="width:{currentAnimeObj?.lastWatched?.percent}%;" class="absolute w-1/2 top-0">
-						<hr class="border-secondary w-full border-2 absolute blur-sm" />
-						<hr class="border-secondary w-full border-2 absolute" />
+						<hr class="border-primary w-full border-2 absolute blur-sm" />
+						<hr class="border-primary w-full border-2 absolute" />
 					</div>
 				</div>
 			</div>
@@ -106,14 +104,14 @@
 	</div>
 	<div class="g-2 flex gap-1">
 		<Listbox
-			class="relative text-sm"
+			class="relative text-sm "
 			value={selectedSource}
 			on:change={(e) => {
 				selectedSource = e.detail;
 				goto(`/${anime.id}?dub=${selectedDubValue.value}&provider=${selectedSource.value}`);
 			}}
 		>
-			<ListboxButton class="bg-base-100 py-2 px-4 flex items-center gap-3 focus:outline-none"
+			<ListboxButton class="bg-base-100 opacity-80 rounded py-2 px-4 flex items-center gap-3 focus:outline-none"
 				>{selectedSource.name} <ChevronsUpDown size="14" color="gray" /></ListboxButton
 			>
 			<Transition
@@ -124,7 +122,7 @@
 				leaveFrom="transform scale-100 opacity-100"
 				leaveTo="transform scale-95 opacity-0"
 			>
-				<ListboxOptions class="absolute bg-base-300 right-0 w-52 focus:outline-none mt-1 py-2 ">
+				<ListboxOptions class="absolute rounded drop-shadow-xl  bg-base-300 right-0 w-52 focus:outline-none mt-1 py-2 ">
 					{#each sources as source (source.value)}
 						<ListboxOption
 							value={source}
@@ -145,14 +143,14 @@
 			</Transition>
 		</Listbox>
 		<Listbox
-			class="relative text-sm"
+			class="relative text-sm rounded"
 			value={selectedDubValue}
 			on:change={(e) => {
 				selectedDubValue = e.detail;
 				goto(`/${anime.id}?dub=${selectedDubValue.value}&provider=${selectedSource.value}`);
 			}}
 		>
-			<ListboxButton class="bg-base-100 py-2 px-4 flex items-center gap-3 focus:outline-none"
+			<ListboxButton class="bg-base-100 opacity-80 drop-shadow-xl rounded py-2 px-4 flex items-center gap-3 focus:outline-none"
 				>{selectedDubValue.name} <ChevronsUpDown size="14" color="gray" /></ListboxButton
 			>
 			<Transition
@@ -163,7 +161,7 @@
 				leaveFrom="transform scale-100 opacity-100"
 				leaveTo="transform scale-95 opacity-0"
 			>
-				<ListboxOptions class="absolute bg-base-300 right-0 w-52 focus:outline-none mt-1 py-2 ">
+				<ListboxOptions class="absolute rounded bg-base-300 right-0 w-52 focus:outline-none mt-1 py-2 ">
 					{#each dubValue as val (val.value)}
 						<ListboxOption
 							value={val}

@@ -1,8 +1,10 @@
 <script>
 	import '../app.css';
+	import 'iconify-icon';
+
 	export let data;
-	const { session} = data;
-	import { playerOn, currentEp } from '$lib/store/store.js';
+	const { session } = data;
+	import { playerOn, currentEp, continueWatching } from '$lib/store/store.js';
 	import Player from '../lib/components/Player.svelte';
 	import { redirect } from '@sveltejs/kit';
 	import { getProfile, profile } from '$lib/store/supaStore';
@@ -17,6 +19,13 @@
 	import Footer from '../lib/components/Footer.svelte';
 
 	NProgress.configure({ showSpinner: false });
+
+	// $: ()=>{
+	// 	const newArr = $continueWatching.map(e=>e.id)
+	// 	console.log(newArr)
+	// }
+
+	// animesInContinueWatcihng()
 
 	beforeNavigate(() => {
 		NProgress.start();
@@ -52,7 +61,11 @@
 
 <div class="drawer drawer-mobile font-poppins">
 	<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-	<div class="drawer-content relative flex flex-col justify-between" bind:this={box} on:scroll={parseScroll}>
+	<div
+		class="drawer-content relative flex flex-col justify-between"
+		bind:this={box}
+		on:scroll={parseScroll}
+	>
 		<div class="slot relative z-0">
 			<slot />
 		</div>
@@ -61,11 +74,10 @@
 			class="z-10 absolute top-4 left-4 drawer-button lg:hidden text-white p-2 cursor-pointer"
 			><AlignLeft /></label
 		>
-		<Footer/>
+		<Footer />
 	</div>
 	<div class="drawer-side">
 		<label for="my-drawer-2" class="drawer-overlay" />
-		<Navbar/>
+		<Navbar />
 	</div>
-
 </div>

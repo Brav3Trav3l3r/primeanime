@@ -116,9 +116,9 @@
 
 	{#if anime.relations.length > 0}
 		<div class="relations">
-			<h1 class="text-xl font-semibold">Related</h1>
+			<h1 class="text-lg font-medium mb-4">Related</h1>
 			<div
-				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 mt-6"
+				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each anime.relations as anime}
 					<Card {anime} showRating=true/>
@@ -128,9 +128,9 @@
 	{/if}
 	{#if anime.recommendations.length > 0}
 		<div class="recommendations">
-			<h1 class="text-xl font-semibold">Recommendations</h1>
+			<h1 class="text-lg font-medium mb-4">Recommendations</h1>
 			<div
-				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 mt-6"
+				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each anime.recommendations as anime}
 					{#if anime.id}

@@ -1,98 +1,142 @@
 <script>
-	import { Twitch, Home, Search, Library, Triangle, Bell, LogOut, RotateCcw } from 'lucide-svelte';
-	import 'iconify-icon';
+	import {
+		Twitch,
+		Home,
+		Search,
+		Library,
+		Triangle,
+		Bell,
+		LogOut,
+		RotateCcw,
+		CalendarClock,
+
+		Grid,
+
+		LayoutDashboard
+
+
+	} from 'lucide-svelte';
 	import { fly, scale } from 'svelte/transition';
 	import { profile } from '$lib/store/supaStore.js';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 </script>
 
-<div class="main px-4 menu py-8 w-72 flex flex-col gap-8 bg-black text-base-content">
-	<form method="POST" action="/search" class="relative flex items-center ">
-		<span class="absolute left-3 text-neutral-content/50">
-			<Search size="20" />
-		</span>
-
-		<input
-			type="search"
-			name="query"
-			placeholder="Search"
-			class="block w-full py-2.5 text-base-content placeholder:text-neutral-content/50 rounded pl-11 pr-6 rtl:pr-11 rtl:pl-5 bg-neutral-content/10 focus:ring-neutral-content focus:outline-none focus:ring focus:ring-opacity-20"
-		/>
-	</form >
-
-	<div
-		class="mainlinks space-y-4 text-sm font-medium "
-	>
-		<h1 class="pb-2 text-xs font-semibold tracking-widest opacity-60">DASHBORD</h1>
-		<div class="home flex items-center space-x-4 w-fit cursor-pointer  hover:brightness-150">
-			<div class="icon">
-				<Home size="22" />
-			</div>
-			<a href="/" class="tracking-wider text-sm">Home</a>
-		</div>
-		<div class="home flex items-center space-x-4 cursor-pointer w-fit  hover:brightness-150">
-			<div class="icon">
-				<Bell size="22" />
-			</div>
-			<a href="#" class="tracking-wider text-sm ">Notifications</a>
-		</div>
-		<div class="home flex items-center space-x-4 cursor-pointer w-fit  hover:brightness-150">
-			<div class="icon">
-				<Library size="22" />
-			</div>
-			<a href="/library" class="tracking-wider text-sm">Library</a>
-		</div>
-	</div>
-
-	<div class="extra-links space-y-3  border-b-2 pb-4 mt-2 border-neutral-content/10">
-		<div class="calender flex gap-4 items-center">
-			<div class="icon text-3xl">
-				<iconify-icon icon="fxemoji:spiralcalendarpad" />
-			</div>
-			<h1 class="tracking-wider text-sm">Airing Status</h1>
-		</div>
-		<div class="continue-watching flex gap-4 items-center">
-			<div class="icon bg-gradient-to-tr from-secondary to-base-content p-2 rounded-md">
-				<RotateCcw size=14 color=black strokeWidth=3/>
-			</div>
-			<a href="/continue-watching" class="tracking-wider text-sm">Continue watching</a>
-		</div>
-	</div>
-
-	<div class="profile flex gap-4 mt-auto">
+<div
+	class="main menu w-72 flex flex-col space-y-6 py-6 bg-base-300 border-r-2 border-base-content/20 text-base-content"
+>
+	<div class="profile px-4">
 		{#if $page.data.session}
-			<div class="avatar items-center">
-				<div class="w-12 rounded-full ">
-					<img src={$profile?.avatar_url} alt="profile" />
+			<div class="main items-center bg-base-content/5 p-3 rounded-lg flex gap-4">
+				<div class="avatar items-center">
+					<div class="w-12 rounded-full truncate">
+						<img src={$profile?.avatar_url} alt="profile" />
+					</div>
 				</div>
-			</div>
 
-			<div class="greet flex flex-col flex-1 justify-end">
-				<h1 class="opacity-50 text-sm font-semibold">Hello ,</h1>
-				<div class="username flex items-center gap-4">
-					<a href="/profile" class="text-xl font-semibold tracking-wide"
-						>{$profile?.username ?? 'Mr. Kitty'}</a
-					>
-
-					<form method="POST" action="/logout" class="flex items-end">
-						<button
-							type="submit"
-							class="opacity-70 hover:opacity-100 hover:text-red-500"
-							role="menuitem"
+				<div class="greet flex flex-col flex-1 justify-end">
+					<h1 class="opacity-50 text-sm font-semibold">Hello ,</h1>
+					<div class="username flex items-center gap-4">
+						<a href="/profile" class="text-lg font-medium tracking-wide"
+							>{$profile?.username ?? 'Mr. Kitty'}</a
 						>
-							<LogOut size="16" />
-						</button>
-					</form>
+
+						<form method="POST" action="/logout" class="flex items-end">
+							<button
+								type="submit"
+								class="opacity-70 hover:opacity-100 hover:text-red-500"
+								role="menuitem"
+							>
+								<LogOut size="16" />
+							</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		{:else}
 			<a
 				href="/login"
-				class="w-full bg-base-content/30 rounded items-center flex justify-center h-12"
+				class="w-full bg-secondary hover:bg-secondary-focus rounded items-center flex justify-center h-12"
 			>
 				<h1 class="text-md">Login</h1>
 			</a>
 		{/if}
 	</div>
+
+	<form method="POST" action="/search" class="relative flex items-center px-4">
+		<!-- <span class="absolute left-3 text-neutral-content/70">
+			<Search size="20" />
+		</span> -->
+
+		<input
+			type="search"
+			name="query"
+			placeholder="Search"
+			class="input placeholder:text-base-content/60 bg-neutral-content/10 rounded-md w-full max-w-xs"
+		/>
+	</form>
+
+	<div class="mainlinks space-y-4 text-sm">
+		<h1 class="pb-2 text-xs font-semibold tracking-widest opacity-50 p-4">MENU</h1>
+		{#if $page.url.pathname === '/'}
+			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4  border-primary box-border">
+				<LayoutDashboard />
+				<a href="/" class="tracking-wider text-sm ">Home</a>
+			</div>
+		{:else}
+			<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<LayoutDashboard />
+				<a href="/" class="tracking-wider text-sm">Home</a>
+			</div>
+		{/if}
+
+		{#if $page.url.pathname === '/library'}
+			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+				<Library />
+				<a href="/library" class="tracking-wider text-sm">Library</a>
+			</div>
+		{:else}
+			<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<Library />
+				<a href="/library" class="tracking-wider text-sm">Library</a>
+			</div>
+		{/if}
+		{#if $page.url.pathname === '/airing-status'}
+			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+				<CalendarClock />
+				<a href="airing-status" class="tracking-wider text-sm">Airing Status</a>
+			</div>
+		{:else}
+			<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<CalendarClock />
+				<a href="airing-status" class="tracking-wider text-sm ">Airing Status</a>
+			</div>
+		{/if}
+		{#if $page.url.pathname === '/continue-watching'}
+			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+				<RotateCcw />
+				<a href="/continue-watching" class="tracking-wider text-sm">Continue watching</a>
+			</div>
+		{:else}
+			<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<RotateCcw />
+				<a href="/continue-watching" class="tracking-wider text-sm ">Continue watching</a>
+			</div>
+		{/if}
+	</div>
+
+	<div class="extra-links space-y-4 border-t-2 pt-6 border-neutral-content/20">
+		{#if $page.url.pathname === '/notification'}
+			<div class="icon text-3xl flex items-end space-x-4 border-l-2 pl-4 border-secondary box-border">
+				<Bell />
+				<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
+			</div>
+		{:else}
+			<div class="icon text-3xl flex items-end space-x-4 pl-4">
+				<Bell />
+				<a href="/notification" class="tracking-wider text-sm opacity-50">Notifications</a>
+			</div>
+		{/if}
+	</div>
+
 </div>

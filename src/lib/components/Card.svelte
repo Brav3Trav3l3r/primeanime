@@ -1,17 +1,26 @@
 <script>
 	export let anime;
-	export let recentEpisode = false;
 	export let showRating = false;
-	import {LazyImage} from 'svelte-lazy-image';
+	import { LazyImage } from 'svelte-lazy-image';
 	$: animeTitle = (anime.title?.english ?? anime.title.romaji) || anime.title;
 	import { addToLib, profile, lib, deleteFromLib } from '$lib/store/supaStore';
 	import { currentProvider, isDub } from '$lib/store/store';
-	import { Percent, Plus, Check, Heart } from 'lucide-svelte';
+	import { Percent, Plus, Check, Heart, Cross, X } from 'lucide-svelte';
+	import { continueWatching } from '$lib/store/store.js';
+	import { scale } from 'svelte/transition';
+
+	$: newArr = $continueWatching.map((e) => e.id);
+
+	const removeFromContinuetWatching = async (anime) => {
+		const filterArr = $continueWatching.filter((e) => e.id != anime.id);
+		console.log(filterArr);
+		continueWatching.set(filterArr);
+	};
 </script>
 
 {#if anime.id}
 	<div class="card relative group">
-		<div class="absolute right-1 top-1 z-10 hidden group-hover:block ">
+		<div class="absolute group-hover:flex flex-col gap-2 right-1 top-1 z-10 hidden ">
 			{#if $lib && $profile && $lib?.includes(anime.id.toString())}
 				<button
 					on:click={() => deleteFromLib($profile, anime)}
@@ -25,60 +34,65 @@
 					><Heart color="red" size="20" /></button
 				>
 			{/if}
+			{#if newArr.includes(anime.id.toString())}
+				<div class="tooltip tooltip-right tooltip-primary" data-tip="Remove">
+					<button
+						on:click={() => removeFromContinuetWatching(anime)}
+						class="w-8 aspect-square bg-neutral hover:text-red-500 flex items-center justify-center rounded-full"
+						><X strokeWidth="2" size="20" /></button
+					>
+				</div>
+			{/if}
 		</div>
 
 		<a href="/{anime.id}?dub={$isDub.value}&provider={$currentProvider.value}" class="z-0">
 			<div class="card z-0 flex flex-col relative">
 				<div class=" image aspect-[2/3] flex-1 overflow-hidden">
-					<LazyImage src={anime.image} alt={animeTitle} options={{ threshold: 0.5 }} class="w-full h-full object-cover" />
+					<LazyImage
+						src={anime.image}
+						alt={animeTitle}
+						options={{ threshold: 0.5 }}
+						class="w-full h-full object-cover"
+					/>
 				</div>
 
-				<div class="w-full bg-base-300 h-10" />
+				<!-- <div class="w-full border bg-base-300 h-10" /> -->
 				<div
-					class="w-full absolute bottom-10 inset-x-0 h-40 bg-gradient-to-t from-base-300 to-base-300/0"
+					class="w-full absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-base-300 to-base-300/0"
 				/>
 				<div
 					class="w-full space-y-2 absolute bottom-0 inset-x-0 h-40 flex flex-col justify-end p-2"
 				>
-					{#if anime.type != 'TV'}
-						<div class="badge">{anime?.type ?? ''}</div>
+					{#if anime.type && anime?.type != 'TV'}
+						<div class="badge badge-acent">{anime?.type ?? ''}</div>
 					{/if}
-					{#if anime.isAdult === true}
+					{#if anime.type && anime?.isAdult === true}
 						<div class="badge badge-error">{anime?.isAdult ?? ''}</div>
 					{/if}
 
-					<div class="title ">
-						<h1 class="">{animeTitle}</h1>
-					</div>
 					{#if showRating}
-						<div class="info flex justify-between">
-							<h1 class="text-md text-neutral-content opacity-70">
-								<i class="font-roboto text-md"
+						<div class="info flex items-end justify-between">
+							<h1 class="text-md text-info">
+								<i class="text-sm"
 									>{anime.episodes || anime.totalEpisodes
 										? anime?.episodes ?? anime.totalEpisodes
 										: anime.episodeNumber || '?'}</i
 								>
 								<i class="text-sm ml-1 ">eps</i>
 							</h1>
-	
+
 							{#if anime.rating}
-								<div class="rating flex items-center text-md gap-1 text-secondary">
-									<h1 class="font-roboto">{anime.rating}</h1>
+								<div class="rating flex items-center text-md gap-1 text-sm text-success">
+									<i class="font-roboto">{anime.rating}</i>
 									<Percent size="16" />
 								</div>
 							{/if}
 						</div>
 					{/if}
 				</div>
-				{#if recentEpisode}
-					<div
-						class="absolute px-3 py-1 top-2 flex items-center justify-center left-0 bg-black"
-					>
-						<h1 class="text-xs">
-							<span class="text-accent">#</span> {anime.episodeNumber} 
-						</h1>
-					</div>
-				{/if}
+			</div>
+			<div class="title mt-2 line-clamp-2">
+				<h1 class="text-sm opacity-80">{animeTitle}</h1>
 			</div>
 		</a>
 	</div>

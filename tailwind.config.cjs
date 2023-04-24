@@ -12,7 +12,29 @@ module.exports = {
 		}
 	},
 	daisyui: {
-		themes: ['forest']
+		themes: [
+			{
+				mytheme: {
+					"primary": '#ffffff',
+
+					"secondary": '#e5e5e5',
+
+					"accent": '#fca311',
+
+					"neutral": '#14213d',
+
+					'base-100': '#000000',
+
+					"info": '#8BE9FD',
+
+					"success": '#50FA7B',
+
+					"warning": '#F1FA8C',
+
+					"error": '#FF5555'
+				}
+			}
+		]
 	},
 	plugins: [
 		require('daisyui'),

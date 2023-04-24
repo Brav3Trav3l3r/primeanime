@@ -25,15 +25,16 @@
 	let duration;
 
 	$: playingEpisode = {
-		id: $page.data.paramsId,
+		id: $page.data.paramsId.toString(),
 		title: $page.data.title,
 		image: $page.data.anime.image,
-		rating:$page.data.anime.rating,
+		rating: $page.data.anime.rating,
 		totalEpisodes: $page.data.anime.totalEpisodes,
 		eps: [
 			{
 				number: currentEpNumber,
 				title: currentTitle,
+				image: playingEp?.image,
 				time: currentTime,
 				duration: duration,
 				percent: (currentTime / duration) * 100
@@ -114,7 +115,10 @@
 					// 	return item.html;
 					// }
 				}
-			]
+			],
+			icons: {
+				loading: '<img src="/dsgif.gif">'
+			}
 		});
 
 		art.on('ready', async () => {
@@ -164,13 +168,13 @@
 			if (obj) {
 				obj.time = playingEpisode.eps[0].time;
 			} else if (playingEpisode.eps[0].time > 20) {
-				arr[foundIndex].eps.push(playingEpisode.eps[0]);
+				arr[foundIndex].eps.unshift(playingEpisode.eps[0]);
 			}
 			if (playingEpisode.eps[0].time > 20) {
 				arr[foundIndex].lastWatched = playingEpisode.lastWatched;
 			}
 		} else if (playingEpisode.eps[0].time > 20) {
-			arr.push(playingEpisode);
+			arr.unshift(playingEpisode);
 		}
 		continueWatching.set(arr);
 	};

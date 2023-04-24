@@ -1,6 +1,6 @@
 <script>
 	export let anime;
-	import { ChevronRight, ChevronLeft, Play, X, Search, LayoutGrid } from 'lucide-svelte';
+	import { ChevronRight, ChevronLeft, Play, X, Search, LayoutGrid, Info } from 'lucide-svelte';
 	import { currentProvider, continueWatching } from '$lib/store/store.js';
 	import { paginate, PaginationNav } from 'svelte-paginate';
 	import Player from '../Player.svelte';
@@ -10,7 +10,6 @@
 	import Card from '../Card.svelte';
 
 	export let filterd = [];
-
 
 	afterNavigate(() => {
 		console.log('navigate');
@@ -29,10 +28,10 @@
 
 <div class="main space-y-8 w-full">
 	{#if playingEp}
-		<div id='player' class="space-y-4 mx-auto max-w-[960px]">
-			<div  class="player group aspect-video bg-base-300 truncate relative">
+		<div id="player" class="space-y-4 mx-auto max-w-[960px]">
+			<div class="player group aspect-video bg-base-300 truncate relative">
 				{#key playingEp}
-					<Player {playingEp} on:updateWatching/>
+					<Player {playingEp} on:updateWatching />
 				{/key}
 				<button
 					on:click={() => {
@@ -90,57 +89,63 @@
 		</div>
 
 		<div
-			class="episodes focus:outline-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 gap-y-8 "
+			class="episodes focus:outline-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 gap-y-8 relative"
 		>
 			{#each paginatedItems as ep (ep.id)}
 				<div class="ep-card space-y-2">
-					<a href="#player"><figure
-						on:click={async () => {
-							playingEp = ep;
-						}}
-						on:keydown
-						class="aspect-video relative"
-					>
-						<img
-							src="https://proxy-for-movie-app.yashgajbhiye10.workers.dev/{ep.image}"
-							alt={ep.title}
-							class="h-full w-full object-cover"
-						/>
-						{#if playingEp?.id === ep.id}
-							<div class="layer absolute inset-0 bg-base-300/80 flex items-center justify-center">
-								<div class="play bg-primary p-3 rounded-full flex items-center justify-center">
-									<div class="icon translate-x-0.5">
-										<Play fill="black" size="32" strokeWidth="0" />
+					<a href="#player"
+						><figure
+							on:click={async () => {
+								playingEp = ep;
+							}}
+							on:keydown
+							class="aspect-video relative"
+						>
+							<img
+								src="https://proxy-for-movie-app.yashgajbhiye10.workers.dev/{ep.image}"
+								alt={ep.title}
+								class="h-full w-full object-cover"
+							/>
+							{#if playingEp?.id === ep.id}
+								<div class="layer absolute inset-0 bg-base-300/80 flex items-center justify-center">
+									<div class="play bg-primary p-3 rounded-full flex items-center justify-center">
+										<div class="icon translate-x-0.5">
+											<Play fill="black" size="32" strokeWidth="0" />
+										</div>
 									</div>
 								</div>
-							</div>
-						{/if}
-						{#if filterd.length > 0 && filterd.some((obj) => obj.number === ep.number)}
-							<div class="layer absolute inset-0 bg-black/60 flex items-end">
-								<!-- <div
+							{/if}
+							{#if filterd.length > 0 && filterd.some((obj) => obj.number === ep.number)}
+								<div class="layer absolute inset-0 bg-black/60 flex items-end">
+									<!-- <div
 									class="transparent relative w-full z-0 inset-y-0 border-b-4 border-base-content/60"
 								/> -->
-								<div
-									style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
-									class="transparent absolute z-10 inset-y-0 border-b-4 border-primary"
-								/>
-								<div
-									style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
-									class="transparent blur absolute z-10 inset-y-0 border-b-4 border-primary"
-								/>
-							</div>
-						{/if}
-					</figure></a>
+									<div
+										style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
+										class="transparent absolute z-10 inset-y-0 border-b-4 border-accent"
+									/>
+									<div
+										style="width: {filterd.find((eps) => eps.number === ep.number).percent}%;"
+										class="transparent blur absolute z-10 inset-y-0 border-b-4 border-accent"
+									/>
+								</div>
+							{/if}
+						</figure></a
+					>
 
 					<div class="card-content space-y-2">
-						<h2 class="">{ep?.number}. {ep?.title ?? `Episodes ${ep?.number}`}</h2>
-						{#if ep.description != null}
+						<i class="text-sm opacity-80">
+							{ep?.number}. {ep?.title ?? `Episodes ${ep?.number}`}
+						</i>
+						<!-- {#if ep.description != null}
 							<p class="opacity-60  text-xs line-clamp-3 tracking-wider">
 								{ep.description}
 							</p>
+							
+							
 						{:else}
 							<p />
-						{/if}
+						{/if} -->
 					</div>
 				</div>
 			{/each}
