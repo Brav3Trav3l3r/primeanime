@@ -70,7 +70,7 @@
 					<span slot="prev">
 						<ChevronLeft />
 					</span>
-					<span slot="number" class="text-lg">
+					<span slot="number" class="text-lg ">
 						{pageNumber}
 					</span>
 					<span slot="next">
@@ -172,7 +172,7 @@
 	}
 
 	.paginate :global(.option.active) {
-		color: #d99330;
+		color: #C58FFF;
 	}
 
 	.paginate :global(.option.number) {
