@@ -71,7 +71,7 @@
 		</div>
 		<label
 			for="my-drawer-2"
-			class="z-10 absolute top-2 left-4 drawer-button lg:hidden text-white p-2 cursor-pointer"
+			class="z-10 absolute top-4 left-0 drawer-button lg:hidden text-white px-3 md:px-6 cursor-pointer"
 			><AlignLeft /></label
 		>
 		<Footer />

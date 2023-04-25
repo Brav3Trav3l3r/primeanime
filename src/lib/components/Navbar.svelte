@@ -126,7 +126,7 @@
 					<a href="/library" class="tracking-wider text-sm">Library</a>
 				</div>
 			{:else}
-				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-60">
 					<Library />
 					<a href="/library" class="tracking-wider text-sm">Library</a>
 				</div>
@@ -139,7 +139,7 @@
 					<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
 				</div>
 			{:else}
-				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-50">
+				<div class="icon text-3xl flex items-end space-x-4 pl-4 opacity-60">
 					<Bell />
 					<a href="/notification" class="tracking-wider text-sm ">Notifications</a>
 				</div>

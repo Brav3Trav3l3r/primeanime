@@ -37,7 +37,7 @@
 				image: playingEp?.image,
 				time: currentTime,
 				duration: duration,
-				percent: (currentTime / duration) * 100
+				percent: ((currentTime - 1) / duration) * 100
 			}
 		],
 		lastWatched: {

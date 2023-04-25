@@ -67,7 +67,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="heart-icon brightness-95 hover:brightness-90 cursor-pointer ">
+		<div class="heart-icon brightness-75 hover:brightness-90 cursor-pointer ">
 			{#if $lib && $profile && $lib?.includes(anime.id)}
 				<button
 					on:click={() => deleteFromLib($profile, anime)}
@@ -77,7 +77,7 @@
 			{:else if $profile}
 				<button
 					on:click={() => addToLib($profile, anime)}
-					class=" w-10 aspect-square flex items-center brightness-50 justify-center"
+					class=" w-10 aspect-square flex items-center justify-center"
 					><Heart size="32" /></button
 				>
 			{:else}

@@ -81,7 +81,7 @@
 						as="div"
 						bind:this={box}
 						role="list"
-						class="flex border-b-2 border-base-content/10 backdrop-blur bg-base-100/80 items-center gap-2 h-16 sticky top-[-1px] z-10  px-6 "
+						class="flex border-b-2 border-base-content/10 backdrop-blur bg-base-100/80 items-center gap-2 md:gap-3 h-16 sticky top-[-1px] z-10  px-6 "
 					>
 						<Tab let:selected>
 							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}>
