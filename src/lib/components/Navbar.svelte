@@ -16,6 +16,7 @@
 	import { profile } from '$lib/store/supaStore.js';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import {enhance} from '$app/forms'
 </script>
 
 <div
@@ -59,7 +60,7 @@
 		{/if}
 	</div>
 
-	<form method="POST" action="/search" class="relative flex items-center px-4">
+	<form method="POST" action="/search" use:enhance class="relative flex items-center px-4">
 		<!-- <span class="absolute left-3 text-neutral-content/70">
 			<Search size="20" />
 		</span> -->

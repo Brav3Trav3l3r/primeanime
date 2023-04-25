@@ -88,7 +88,7 @@
 
 		art = new Artplayer({
 			container: '.artplayer-app',
-			theme: '#C58FFF',
+			theme: '#A62BFF',
 			url: `${proxy}${url}`,
 			type: 'm3u8',
 			subtitle: {

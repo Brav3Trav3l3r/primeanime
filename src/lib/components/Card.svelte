@@ -92,7 +92,7 @@
 				</div>
 			</div>
 			<div class="title mt-2 line-clamp-2">
-				<h1 class="text-sm opacity-80">{animeTitle}</h1>
+				<h1 class="text-sm ">{animeTitle}</h1>
 			</div>
 		</a>
 	</div>

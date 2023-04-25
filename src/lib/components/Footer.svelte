@@ -1,4 +1,4 @@
-<footer class="w-full bg-base-content/10 body-font mt-10 z-50 relative">
+<footer class="w-full bg-neutral/20 body-font mt-10 z-50 relative">
 	<div
 		class="container flex flex-col flex-wrap px-5 py-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap"
 	>
