@@ -164,7 +164,7 @@
 						<iconify-icon icon="eos-icons:three-dots-loading" />
 					</div>
 				{:else}
-					<div class="icon flex ">
+					<div class="icon flex align-middle">
 						<Plus size="14" />
 					</div>
 				{/if}
@@ -185,7 +185,7 @@
 					await getRecent();
 					loading = false;
 				}}
-				class="btn btn-primary hover:bg-primary-focus rounded-none"
+				class="btn btn-primary rounded-none flex gap-1"
 			>
 				<h1 class="">Load more</h1>
 				{#if loading}
@@ -214,7 +214,7 @@
 					await getPopular();
 					loading = false;
 				}}
-				class="btn btn-primary hover:bg-primary-focus rounded-none"
+				class="btn btn-primary rounded-none flex gap-1"
 				><h1 class="">Load more</h1>
 				{#if loading}
 					<div class="icon text-3xl h-fit flex items-center ">

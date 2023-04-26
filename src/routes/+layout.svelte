@@ -66,14 +66,15 @@
 		bind:this={box}
 		on:scroll={parseScroll}
 	>
-		<div class="slot relative z-0">
-			<slot />
-		</div>
+		
 		<label
 			for="my-drawer-2"
 			class="z-10 absolute top-4 left-0 drawer-button lg:hidden text-white px-3 md:px-6 cursor-pointer"
 			><AlignLeft /></label
 		>
+		<div class="slot relative z-0">
+			<slot />
+		</div>
 		<Footer />
 	</div>
 	<div class="drawer-side">

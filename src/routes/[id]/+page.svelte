@@ -53,11 +53,11 @@
 
 <div class="main relative">
 	<!-- <h1>{anime.id}</h1> -->
-	<div class="cover h-[350px] sticky top-0 z-0">
+	<div class="cover hidden md:block xl:h-[350px] h-60 md:h-80  sticky top-0 z-0">
 		<Cover {anime} {color} />
 	</div>
 
-	<div class="title absolute h-[350px] inset-0 z-10">
+	<div class="title hidden md:block absolute xl:h-[350px] h-60 md:h-80 inset-0 z-10">
 		<Title {anime} {title} />
 	</div>
 
@@ -68,23 +68,23 @@
 				class="gradient h-64 absolute inset-x-0 top-0 brightness-[0.4] "
 			/>
 
-			<div class="group-1 relative z-20 ">
-				<div class=" relative z-20 p-6">
+			<div class="group-1 relative z-20 top-14 md:top-0">
+				<!-- <div class=" relative z-20 p-6">
 					<Controls {anime} {paramsId} {query} {currentAnimeObj} {availableInContinue} />
-				</div>
+				</div> -->
 
 				<TabGroup
-					class="relative z-10"
+					class="relative z-10 "
 					on:change={(e) => console.log('Changed selected tab to:', e.detail)}
 				>
 					<TabList
 						as="div"
 						bind:this={box}
 						role="list"
-						class="flex border-b-2 border-base-content/10 backdrop-blur bg-base-100/80 items-center gap-2 md:gap-3 h-16 sticky top-[-1px] z-10  px-6 "
+						class="flex border-b-2 border-base-content/10 bg-base-100/50 backdrop-blur-md  items-center gap-2 md:gap-3 h-16 sticky top-[-1px] z-10 px-3 md:px-6 "
 					>
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}>
+							<span class={selected ? 'text-accent font-medium' : 'font-medium  '}>
 								Info
 							</span>
 						</Tab>
@@ -92,7 +92,7 @@
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}
+							<span class={selected ? 'text-accent font-medium' : 'font-medium '}
 								>Episodes</span
 							>
 						</Tab>
@@ -100,13 +100,13 @@
 						<ChevronRight size="16" strokeWidth="3" color="#636061" />
 
 						<Tab let:selected>
-							<span class={selected ? 'text-base-content font-medium': 'font-medium opacity-50'}>
+							<span class={selected ? 'text-accent font-medium' : 'font-medium '}>
 								Comments
 							</span>
 						</Tab>
 					</TabList>
 
-					<TabPanels class=" relative z-0 p-6 ">
+					<TabPanels class=" relative z-0 p-3 md:p-6 ">
 						<TabPanel class="focus:outline-none">
 							<Info {anime} {title} />
 						</TabPanel>

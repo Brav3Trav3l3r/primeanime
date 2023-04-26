@@ -26,7 +26,7 @@
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
 </script>
 
-<div class="main space-y-8 w-full">
+<div class="main space-y-6 w-full">
 	{#if playingEp}
 		<div id="player" class="space-y-4 mx-auto max-w-[960px]">
 			<div class="player group aspect-video bg-base-300 truncate relative">
@@ -53,46 +53,22 @@
 	{/if}
 
 	{#if paginatedItems.length}
-		<div class="filter flex md:flex-row flex-col gap-2 md:items-center md:justify-between">
-			<div class="paginate">
-				<PaginationNav
-					let:value={pageNumber}
-					totalItems={items.length}
-					{pageSize}
-					{currentPage}
-					limit={1}
-					showStepOptions={true}
-					on:setPage={(e) => {
-						console.log(e);
-						currentPage = e.detail.page;
-					}}
-				>
-					<span slot="prev">
-						<ChevronLeft />
-					</span>
-					<span slot="number" class="text-lg ">
-						{pageNumber}
-					</span>
-					<span slot="next">
-						<ChevronRight />
-					</span>
-				</PaginationNav>
-			</div>
-			<div class="relative opacity-60 flex items-center gap-6">
-				<LayoutGrid fill="#D6CBCB" strokeWidth="0" size="28" />
+		<div class="filter md:items-center md:justify-between">
+			<div class="relative flex flex-row-reverse items-center gap-4">
 				<input
 					type="text"
 					placeholder="Search episode"
-					class="input placeholder:text-base-content/50 rounded-md input-bordered w-full max-w-xs"
+					class="input placeholder:text-base-content/70 rounded-md input-bordered w-full max-w-xs"
 				/>
+				<LayoutGrid fill="#D6CBCB" strokeWidth="0" size="28" />
 			</div>
 		</div>
 
 		<div
-			class="episodes focus:outline-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 gap-y-8 relative"
+			class="episodes focus:outline-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-1 md:gap-3 gap-y-4 md:gap-y-8 relative"
 		>
 			{#each paginatedItems as ep (ep.id)}
-				<div class="ep-card space-y-2">
+				<div class="ep-card space-y-1">
 					<a href="#player"
 						><figure
 							on:click={async () => {
@@ -133,7 +109,7 @@
 						</figure></a
 					>
 
-					<div class="card-content space-y-2">
+					<div class="card-content space-y-1">
 						<i class="text-sm opacity-80">
 							{ep?.number}. {ep?.title ?? `Episodes ${ep?.number}`}
 						</i>
@@ -154,6 +130,30 @@
 		<h1>No episode can be found from {$currentProvider.name} :(</h1>
 		<h1 class="text-sm opacity-50">Try switching the provider</h1>
 	{/if}
+	<div class="paginate">
+		<PaginationNav
+			let:value={pageNumber}
+			totalItems={items.length}
+			{pageSize}
+			{currentPage}
+			limit={1}
+			showStepOptions={true}
+			on:setPage={(e) => {
+				console.log(e);
+				currentPage = e.detail.page;
+			}}
+		>
+			<span slot="prev">
+				<ChevronLeft />
+			</span>
+			<span slot="number" class="text-lg ">
+				{pageNumber}
+			</span>
+			<span slot="next">
+				<ChevronRight />
+			</span>
+		</PaginationNav>
+	</div>
 </div>
 
 <style>
@@ -172,7 +172,7 @@
 	}
 
 	.paginate :global(.option.active) {
-		color: #C58FFF;
+		color: #c58fff;
 	}
 
 	.paginate :global(.option.number) {

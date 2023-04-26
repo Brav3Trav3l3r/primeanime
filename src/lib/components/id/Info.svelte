@@ -41,7 +41,7 @@
 
 <div class="anime space-y-10">
 	<div class="flex flex-col md:flex-row gap-6">
-		<div class="image h-80 w-fit aspect-[2/3] truncate">
+		<div class="image h-60 m:h-72 xl:h-80 w-fit aspect-[2/3] truncate">
 			<img src={anime.image} alt="" class="w-full h-full object-cover" />
 		</div>
 		<section class="flex-1 flex flex-col space-y-3">
@@ -56,16 +56,16 @@
 					<h1>{anime?.duration} mins</h1>
 				{/if}
 			</div>
-			<div class="g-2 flex gap-4">
+			<div class="g-2 flex flex-col md:flex-row gap-2 md:gap-4">
 				<h1 class={`${anime.status === 'Completed' ? 'text-red-500' : 'text-green-500'}`}>
 					{anime.status}
 				</h1>
 				{#if anime.totalEpisodes}
-					<h1>/</h1>
+					<h1 class="hidden md:block">/</h1>
 					<h1>{anime.totalEpisodes} episode(s)</h1>
 				{/if}
 				{#if anime.nextAiringEpisode}
-					<h1>/</h1>
+					<h1 class="hidden md:block">/</h1>
 					<h1>
 						<span class="text-sm opacity-60"
 							>episode {anime.nextAiringEpisode.episode} will air on :</span
@@ -76,20 +76,20 @@
 				{/if}
 			</div>
 			<div class="description mt-4 text-sm opacity-60 max-w-prose tracking-wider">
-				{#if anime.description.length > maxLength}
+				{#if anime?.description?.length > maxLength}
 					<p class=" ">
-						{@html anime.description.slice(0, maxLength)} ...
+						{@html anime?.description.slice(0, maxLength)} ...
 						<button on:click={() => (maxLength = 100000)} class="text-sm text-white tracking-wider"
 							>Read More</button
 						>
 					</p>
-				{:else if anime.description.length < 350}
+				{:else if anime?.description?.length < 350}
 					<p class="">
-						{@html anime.description}
+						{@html anime?.description}
 					</p>
 				{:else}
 					<p class="">
-						{@html anime.description}
+						{@html anime?.description}
 					</p>
 					<button on:click={() => (maxLength = 350)} class="text-sm text-white tracking-wider"
 						>Read Less</button
@@ -99,7 +99,7 @@
 			<div class="rating bg-base-content/10 w-fit px-4 py-2 rounded-full">
 				<h1 class="text-accent">
 					<span class="text-base-content opacity-50 text-sm">Score:</span>
-					<span class="font-semibold">{anime.rating}</span>
+					<span class="font-semibold">{anime?.rating}</span>
 				</h1>
 			</div>
 		</section>
@@ -118,7 +118,7 @@
 		<div class="relations">
 			<h1 class="text-lg font-medium mb-4">Related</h1>
 			<div
-				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
+				class="card-group grid gap-1 sm:gap-2 md:gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each anime.relations as anime}
 					<Card {anime} showRating=true/>
@@ -130,7 +130,7 @@
 		<div class="recommendations">
 			<h1 class="text-lg font-medium mb-4">Recommendations</h1>
 			<div
-				class="card-group grid gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
+				class="card-group grid gap-1 sm:gap-2 md:gap-3 gap-y-6 grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6"
 			>
 				{#each anime.recommendations as anime}
 					{#if anime.id}
